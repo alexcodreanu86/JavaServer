@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+task buildJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-title': 'JavaServer',
+                   'Implementation-version': version,
+                   'Main-Class': 'com.java_server.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
