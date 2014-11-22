@@ -1,11 +1,9 @@
 package routing;
 
-import com.java_server.Request.Request;
+import com.java_server.request.Request;
 import com.java_server.routing.*;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.util.Hashtable;
 
 /**
@@ -17,8 +15,7 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "requestBody=body";
         Request request = newRequest(url, body, "POST");
-        RouteMethod method = new RouteMethodFactory().buildRouteMethod(request, newOutStream());
-        assert(method instanceof POST);
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
     }
 
     @Test
@@ -26,7 +23,7 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "";
         Request request = newRequest(url, body, "OPTIONS");
-        RouteMethod method = new RouteMethodFactory().buildRouteMethod(request, newOutStream());
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
         assert(method instanceof OPTIONS);
 
     }
@@ -36,7 +33,7 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "";
         Request request = newRequest(url, body, "GET");
-        RouteMethod method = new RouteMethodFactory().buildRouteMethod(request, newOutStream());
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
         assert(method instanceof GET);
     }
 
@@ -45,7 +42,7 @@ public class RouteMethodFactoryTest {
         String url = "/invalid/url/here";
         String body = "";
         Request request = newRequest(url, body, "POST");
-        RouteMethod method = new RouteMethodFactory().buildRouteMethod(request, newOutStream());
+        RouteMethod method = RouteMethodFactory.generateInvalidMethod(request);
 
         assert(method instanceof NOTFOUND);
     }
@@ -53,10 +50,5 @@ public class RouteMethodFactoryTest {
     private Request newRequest(String url, String body, String method) {
         Hashtable headers = new Hashtable();
         return new Request(method, url, body, headers);
-    }
-
-    private DataOutputStream newOutStream() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        return new DataOutputStream(outputStream);
     }
 }

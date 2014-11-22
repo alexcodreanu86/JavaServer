@@ -20,7 +20,7 @@ public class Response {
     }
 
     public Response() {
-        new Response("", "");
+        this("", "");
     }
 
     public String getResponseLine() {

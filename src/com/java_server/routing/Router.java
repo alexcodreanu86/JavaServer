@@ -1,7 +1,10 @@
 package com.java_server.routing;
 
-import com.java_server.Request.Request;
-import com.java_server.Request.RequestGenerator;
+import com.java_server.request.Request;
+import com.java_server.request.RequestGenerator;
+import com.java_server.response.Response;
+import com.java_server.response.ResponseGenerator;
+import com.java_server.response.ResponseSender;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -34,8 +37,10 @@ public class Router {
     }
 
     private void respond(Request request) throws IOException {
-        RouteMethod routeMethod = routeMethodFactory.buildRouteMethod(request, writer);
-        routeMethod.processRequest();
+        Response response = ResponseGenerator.generate(request);
+        ResponseSender sender = new ResponseSender(response, writer);
+        sender.send();
+
         closeConnection();
     }
 

@@ -1,6 +1,6 @@
 package server;
 
-import com.java_server.Request.Request;
+import com.java_server.request.Request;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

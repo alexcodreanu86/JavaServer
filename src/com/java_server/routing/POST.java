@@ -1,17 +1,15 @@
 package com.java_server.routing;
 
-import com.java_server.Request.Request;
+import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseCodes;
-import com.java_server.response.ResponseSender;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
  * Created by Alex Codreanu on 11/20/14.
  */
-public class POST {
+public class POST extends RouteMethod {
     private Request request;
     private final String okCode = "200";
     private final String notFound = "404";
@@ -20,11 +18,7 @@ public class POST {
     }
 
     public Response getResponse() throws IOException{
-        if (request.getUrl().equals("/form")) {
-            return createSuccessResponseWithData(request.getBody());
-        } else {
-            return createFailResponse();
-        }
+        return createSuccessResponseWithData(request.getBody());
     }
 
     private Response createSuccessResponseWithData(String data) throws IOException {

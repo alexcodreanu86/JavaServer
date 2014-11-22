@@ -1,4 +1,4 @@
-package com.java_server.Request;
+package com.java_server.request;
 
 import java.io.BufferedReader;
 import java.io.IOException;

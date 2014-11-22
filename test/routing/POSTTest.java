@@ -2,15 +2,12 @@ package routing;
 
 import static org.junit.Assert.*;
 
-import com.java_server.Request.Request;
+import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.routing.POST;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Hashtable;
 
 /**
@@ -27,22 +24,7 @@ public class POSTTest {
         try {
             Response response = postRouter.getResponse();
             assertEquals(expectedResponse, response.getResponseLine());
-        }
-        catch (IOException e) {
-            fail(e.toString());
-        }
-    }
-
-    public void processRequestSendsA404IfInvalidRoute() {
-        String url = "/random/route/here";
-        String body = "requestBody=body";
-        Request request = newRequest(url, body);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        POST postRouter = new POST(request);
-        String expectedResponse = "HTTP/1.1 404 Not Found\r\n\r\n";
-        try {
-            postRouter.getResponse();
-            assertEquals(outputStream.toString(), expectedResponse);
+            assertEquals(body, response.getBody());
         }
         catch (IOException e) {
             fail(e.toString());
@@ -53,9 +35,5 @@ public class POSTTest {
         String method = "POST";
         Hashtable headers = new Hashtable();
         return new Request(method, url, body, headers);
-    }
-
-    private DataOutputStream newOutStream(OutputStream outputStream) {
-        return new DataOutputStream(outputStream);
     }
 }
