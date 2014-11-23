@@ -1,4 +1,4 @@
-package com.java_server.routing;
+package com.java_server.routing.methods;
 
 import com.java_server.request.Request;
 import com.java_server.response.Response;

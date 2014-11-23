@@ -18,7 +18,6 @@ public class Router {
     private BufferedReader reader;
     private DataOutputStream writer;
     private Socket connection;
-    private RouteMethodFactory routeMethodFactory = new RouteMethodFactory();
 
     public Router(BufferedReader inReader, DataOutputStream inWriter, Socket inConnection) {
         this.reader = inReader;
@@ -57,4 +56,3 @@ public class Router {
         return RequestGenerator.generate(reader);
     }
 }
-

@@ -15,10 +15,10 @@ public class ClientConnection extends Thread {
     protected Socket clientConn;
     private BufferedReader reader;
     private DataOutputStream writer;
-    public ClientConnection(Socket connection)  throws IOException {
-        clientConn = connection;
-        reader = new BufferedReader(new InputStreamReader(clientConn.getInputStream()));
-        writer = new DataOutputStream(clientConn.getOutputStream());
+    public ClientConnection(Socket connection) throws IOException {
+        this.clientConn = connection;
+        this.reader = new BufferedReader(new InputStreamReader(clientConn.getInputStream()));
+        this.writer = new DataOutputStream(clientConn.getOutputStream());
     };
 
     public void run() {

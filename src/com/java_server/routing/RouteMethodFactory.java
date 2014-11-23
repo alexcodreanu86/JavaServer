@@ -1,6 +1,7 @@
 package com.java_server.routing;
 
 import com.java_server.request.Request;
+import com.java_server.routing.methods.*;
 
 /**
  * Created by Alex Codreanu on 11/20/14.

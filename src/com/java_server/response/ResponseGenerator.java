@@ -1,8 +1,8 @@
 package com.java_server.response;
 
 import com.java_server.request.Request;
-import com.java_server.routing.RequestValidator;
-import com.java_server.routing.RouteMethod;
+import com.java_server.request.RequestValidator;
+import com.java_server.routing.methods.RouteMethod;
 import com.java_server.routing.RouteMethodFactory;
 import com.java_server.routing.RoutesDispatcher;
 
@@ -17,7 +17,6 @@ public class ResponseGenerator {
 
     public static Response generate(Request request) {
         if (new RequestValidator(request).isValidRequest()) {
-            //TODO add ValidResponse
             try {
                 return validResponse(request);
             }
@@ -55,7 +54,7 @@ public class ResponseGenerator {
         return headerValue;
     }
 
-    public static String[] getRouteMethods(String url) {
+    private static String[] getRouteMethods(String url) {
         return RoutesDispatcher.getRouteMethods(url);
     }
 }

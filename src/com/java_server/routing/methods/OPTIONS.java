@@ -1,4 +1,4 @@
-package com.java_server.routing;
+package com.java_server.routing.methods;
 
 import com.java_server.request.Request;
 import com.java_server.response.Response;
@@ -11,7 +11,6 @@ import java.io.IOException;
 public class OPTIONS extends RouteMethod {
     private Request request;
     private final String okCode = "200";
-    private final String notFound = "404";
 
     public OPTIONS(Request inRequest) {
         this.request = inRequest;

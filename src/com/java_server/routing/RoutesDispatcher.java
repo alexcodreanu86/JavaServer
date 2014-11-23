@@ -16,4 +16,9 @@ public class RoutesDispatcher {
     public static String[] getRouteMethods(String route) {
         return RoutesMethods.get(route);
     }
+
+    public static void addRouteWithMethods(String route, String[] methods) {
+        RoutesMethods.put(route, methods);
+    }
+
 }
