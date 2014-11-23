@@ -1,6 +1,5 @@
 package routing;
 
-import com.java_server.data_storage.FilesData;
 import com.java_server.routing.DirectoryRoutesLoader;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.templates.DirectoryContentTemplate;
@@ -29,8 +28,8 @@ public class DirectoryRoutesLoaderTest {
 
         DirectoryRoutesLoader.loadDirectoryContents(file.getParentFile());
 
-        assert(Arrays.equals(FilesData.getFileData(filePath1), text1.getBytes()));
-        assert(Arrays.equals(FilesData.getFileData(filePath2), text2.getBytes()));
+        assert(Arrays.equals(RoutesDispatcher.getRoute(filePath1).getData(), text1.getBytes()));
+        assert(Arrays.equals(RoutesDispatcher.getRoute(filePath2).getData(), text2.getBytes()));
 
         deleteDirectory(new File(directoryPath));
     }
@@ -45,8 +44,8 @@ public class DirectoryRoutesLoaderTest {
         DirectoryRoutesLoader.loadDirectoryContents(file.getParentFile());
         String directoryTemplate = new DirectoryContentTemplate(file.getParentFile()).render();
 
-        assert(Arrays.equals(directoryTemplate.getBytes(), FilesData.getFileData("/")));
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRouteMethods("/")));
+        assert(Arrays.equals(directoryTemplate.getBytes(), RoutesDispatcher.getRoute("/").getData()));
+        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute("/").getMethods()));
 
         deleteDirectory(new File(directoryPath));
     }
@@ -60,8 +59,8 @@ public class DirectoryRoutesLoaderTest {
 
         DirectoryRoutesLoader.loadDirectoryContents(file.getParentFile());
 
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRouteMethods(filePath1)));
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRouteMethods(filePath2)));
+        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute(filePath1).getMethods()));
+        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute(filePath2).getMethods()));
 
         deleteDirectory(new File(directoryPath));
     }

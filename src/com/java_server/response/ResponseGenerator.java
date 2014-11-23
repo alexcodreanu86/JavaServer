@@ -55,6 +55,6 @@ public class ResponseGenerator {
     }
 
     private static String[] getRouteMethods(String url) {
-        return RoutesDispatcher.getRouteMethods(url);
+        return RoutesDispatcher.getRoute(url).getMethods();
     }
 }

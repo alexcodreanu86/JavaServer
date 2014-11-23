@@ -5,6 +5,8 @@ import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseCodes;
+import com.java_server.routing.Route;
+import com.java_server.routing.RoutesDispatcher;
 
 import java.io.IOException;
 
@@ -24,14 +26,19 @@ public class GET extends RouteMethod {
 
     public Response getResponse() throws IOException {
         if (validator.isValidMethod()) {
-            byte[] responseBody = FilesData.getFileData(request.getUrl());
-            if (responseBody != null) {
-                return createSuccessResponse(responseBody);
-            } else {
-                return createInvalidResponse();
-            }
+            return createAllowedResponse();
         } else {
             return notAllowedResponse();
+        }
+    }
+
+    private Response createAllowedResponse() throws IOException {
+        Route route = RoutesDispatcher.getRoute(request.getUrl());
+        byte[] responseBody = route.getData();
+        if (responseBody != null) {
+            return createSuccessResponse(responseBody);
+        } else {
+            return createInvalidResponse();
         }
     }
 

@@ -3,6 +3,7 @@ package routing.methods;
 import com.java_server.data_storage.FilesData;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
+import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.routing.methods.GET;
 import org.junit.Test;
@@ -19,12 +20,12 @@ public class GETTest {
     @Test
 
     public void testGetResponse_addsTheBodyForAValidRequestRoute() throws IOException {
-        String route = "/hello";
-        String routeBody = "hello world";
-        RoutesDispatcher.addRouteWithMethods(route, new String[] {"GET"});
-        FilesData.addFileWithData(route, routeBody);
+        String routePath = "/hello";
+        String routeData = "hello world";
+        Route route = new Route(routePath, new String[] {"GET"}, routeData.getBytes());
+        RoutesDispatcher.addRoute(route);
 
-        Response response = new GET(newRequest(route)).getResponse();
+        Response response = new GET(newRequest(routePath)).getResponse();
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
                                   "Content-Type: text/html" +
                                   "\r\n\r\n" +
@@ -35,12 +36,12 @@ public class GETTest {
 
     @Test
     public void testGetResponse_returnsANotAllowedResponseWhenMethodIsNotAllowedForRoute() throws IOException {
-        String route = "/trigger_alarm";
-        String routeBody = "ALARM!!!!";
-        FilesData.addFileWithData(route, routeBody);
-        RoutesDispatcher.addRouteWithMethods(route, new String[] {"POST"});
+        String routePath = "/trigger_alarm";
+        String routeData = "ALARM!!!!";
+        Route route = new Route(routePath, new String[] {"POST"}, routeData.getBytes());
+        RoutesDispatcher.addRoute(route);
 
-        Response response = new GET(newRequest(route)).getResponse();
+        Response response = new GET(newRequest(routePath)).getResponse();
         String expectedResponse = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
 
         assert(Arrays.equals(expectedResponse.getBytes(), response.render()));

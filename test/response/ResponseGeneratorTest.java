@@ -3,6 +3,8 @@ package response;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseGenerator;
+import com.java_server.routing.Route;
+import com.java_server.routing.RoutesDispatcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -40,6 +42,8 @@ public class ResponseGeneratorTest {
     public void generateReponse_generatesAValidResponseWhenTheRequestIsValid()
             throws IOException {
         String url = "/method_options";
+        Route route = new Route(url, new String[] {"GET", "HEAD", "POST", "OPTIONS", "PUT"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
         Request request = newRequest(url, "", "OPTIONS");
         Response response = ResponseGenerator.generate(request);
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +

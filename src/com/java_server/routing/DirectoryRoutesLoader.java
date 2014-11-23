@@ -1,6 +1,5 @@
 package com.java_server.routing;
 
-import com.java_server.data_storage.FilesData;
 import com.java_server.templates.DirectoryContentTemplate;
 
 import java.io.*;
@@ -19,20 +18,23 @@ public class DirectoryRoutesLoader {
         if (directoryContents != null) {
             for (File file : directoryContents) {
                 String fileName = file.toString().substring(directory.toString().length());
-                setupFileRoute(fileName, readFileContents(file));
+                setupGetFileRoute(fileName, readFileContents(file));
             }
         }
     }
 
-    private static void setupFileRoute(String fileName, byte[] fileData) {
-        RoutesDispatcher.addRouteWithMethods(fileName, new String[] {"GET"});
-
-        FilesData.addFileWithData(fileName, fileData);
+    public static void setupFileRoute(String fileName, String[] methods, byte[] fileData) {
+        Route route = new Route(fileName, methods, fileData);
+        RoutesDispatcher.addRoute(route);
     }
 
     private static void createRootPath(File directory) {
         String template =  new DirectoryContentTemplate(directory).render();
-        setupFileRoute("/", template.getBytes());
+        setupGetFileRoute("/", template.getBytes());
+    }
+
+    private static void setupGetFileRoute(String fileName, byte[] fileData) {
+        setupFileRoute(fileName, new String[] {"GET"}, fileData);
     }
 
     private static byte[] readFileContents(File file) {

@@ -2,6 +2,8 @@ package request;
 
 import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
+import com.java_server.routing.Route;
+import com.java_server.routing.RoutesDispatcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,6 +17,8 @@ public class RequestValidatorTest {
     public void testIsValidRequestReturnsTrueWhenRequestIsValid() {
         String url = "/method_options";
         String body = "";
+        Route route = new Route(url, new String[]{"GET"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
         Request request = newRequest(url, body, "GET");
         RequestValidator validator = new RequestValidator(request);
         assertTrue(validator.isValidRequest());
@@ -24,6 +28,9 @@ public class RequestValidatorTest {
     public void testIsValidRequestReturnsFalseWhenRequestHasInvalidUrl() {
         String url = "/invalid_url";
         String body = "";
+        Route route = new Route("/home", new String[]{"GET"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
+
         Request request = newRequest(url, body, "GET");
         RequestValidator validator = new RequestValidator(request);
         assertFalse(validator.isValidRequest());
@@ -33,6 +40,8 @@ public class RequestValidatorTest {
     public void testIsValidRequestReturnsFalseWhenRequestHasInvalidMethodForTheUrl() {
         String url = "/method_options";
         String body = "requestBody=body";
+        Route route = new Route(url, new String[]{"GET"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
         Request request = newRequest(url, body, "DELETE");
         RequestValidator validator = new RequestValidator(request);
         assertFalse(validator.isValidMethod());
