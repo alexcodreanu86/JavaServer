@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 import static org.junit.Assert.*;
@@ -27,7 +28,7 @@ public class OPTIONSTest {
         String expectedResponse = "HTTP/1.1 200 OK\r\n\r\n";
         try {
             Response response = optionsRouter.getResponse();
-            assertEquals(expectedResponse, response.render());
+            assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
         }
         catch (IOException e) {
             fail(e.toString());

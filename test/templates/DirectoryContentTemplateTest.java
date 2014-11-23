@@ -22,8 +22,8 @@ public class DirectoryContentTemplateTest {
         createFile(directoryPath + filePath2);
 
         String expectedResponse = "<ul>" +
-                                  "<li><a href='" + filePath1 + "'>" + filePath1 + "</a></li>" +
-                                  "<li><a href='" + filePath2 + "'>" + filePath2 + "</a></li>" +
+                                  "<li><a href='" + filePath1 + "'>testFile1</a></li>" +
+                                  "<li><a href='" + filePath2 + "'>testFile2</a></li>" +
                                   "</ul>";
         String renderedDirectory = new DirectoryContentTemplate(directory).render();
 

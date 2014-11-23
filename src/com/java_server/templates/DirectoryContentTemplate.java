@@ -17,7 +17,7 @@ public class DirectoryContentTemplate {
         if (directoryContents != null) {
             for(File file : directoryContents) {
                 String fileName = file.toString().substring(directory.toString().length());
-                template += ("<li><a href='" + fileName + "'>" + fileName + "</a></li>");
+                template += ("<li><a href='" + fileName + "'>" + fileName.substring(1) + "</a></li>");
 
             }
         }

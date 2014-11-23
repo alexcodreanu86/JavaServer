@@ -13,11 +13,13 @@ public class RouteMethodFactory {
 
     private static RouteMethod generateValidMethod(Request request) {
         String methodName = request.getMethod();
-        if (methodName == "POST") {
+        if (methodName.equals("POST")) {
             return new POST(request);
-        }else if (methodName == "OPTIONS") {
+        }else if (methodName.equals("OPTIONS")) {
             return new OPTIONS(request);
-        } else {
+        } else if (methodName.equals("PUT")) {
+            return new PUT(request);
+        } else  {
             return new GET(request);
         }
     }

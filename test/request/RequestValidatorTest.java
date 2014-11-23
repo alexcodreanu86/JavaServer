@@ -1,4 +1,4 @@
-package routing;
+package request;
 
 import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
@@ -35,7 +35,7 @@ public class RequestValidatorTest {
         String body = "requestBody=body";
         Request request = newRequest(url, body, "DELETE");
         RequestValidator validator = new RequestValidator(request);
-        assertFalse(validator.isValidRequest());
+        assertFalse(validator.isValidMethod());
     }
 
     private Request newRequest(String url, String body,String method) {

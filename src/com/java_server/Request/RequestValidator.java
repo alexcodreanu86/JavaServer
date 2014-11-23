@@ -1,6 +1,5 @@
 package com.java_server.request;
 
-import com.java_server.request.Request;
 import com.java_server.routing.RoutesDispatcher;
 
 import java.util.Arrays;
@@ -8,18 +7,24 @@ import java.util.Arrays;
 /**
  * Created by Alex Codreanu on 11/21/14.
  */
+
 public class RequestValidator {
     private Request request;
+    private String[] routes;
     public RequestValidator(Request inRequest) {
-       this.request = inRequest;
+        this.request = inRequest;
+        this.routes = RoutesDispatcher.getRouteMethods(request.getUrl());
     }
 
     public boolean isValidRequest() {
-        String[] routes = RoutesDispatcher.getRouteMethods(request.getUrl());
-        return routes != null && isValidMethod(routes);
+        return this.routes != null;
     }
 
-    private boolean isValidMethod(String[] routes) {
-        return -1 < Arrays.asList(routes).indexOf(request.getMethod());
+    public boolean isValidMethod() {
+        if (routes != null) {
+            return -1 < Arrays.asList(routes).indexOf(request.getMethod());
+        } else {
+            return false;
+        }
     }
 }

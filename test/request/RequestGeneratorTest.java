@@ -1,4 +1,4 @@
-package server;
+package request;
 
 import com.java_server.request.Request;
 import com.java_server.request.RequestGenerator;

@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 /**
@@ -32,7 +33,7 @@ public class ResponseGeneratorTest {
         Request request = newRequest(url, body, "DELETE");
         Response response = ResponseGenerator.generate(request);
 
-        assertEquals("HTTP/1.1 404 Not Found", response.getResponseLine());
+        assertEquals("HTTP/1.1 405 Method Not Allowed", response.getResponseLine());
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ResponseGeneratorTest {
                 "Allow: GET,HEAD,POST,OPTIONS,PUT" +
                 "\r\n\r\n";
 
-        assertEquals(expectedResponse, response.render());
+        assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
 
 

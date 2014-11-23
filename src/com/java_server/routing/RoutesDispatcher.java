@@ -8,7 +8,7 @@ import java.util.Hashtable;
 public class RoutesDispatcher {
     private static Hashtable<String, String[]> RoutesMethods =
             new Hashtable<String, String[]>(){{
-                put("/", new String[]{"GET", "OPTIONS"});
+                put("/", new String[]{"GET"});
                 put("/form", new String[]{"GET", "POST", "PUT", "DELETE", "OPTIONS"});
                 put("/method_options", new String[]{"GET", "HEAD", "POST", "OPTIONS", "PUT"});
             }};

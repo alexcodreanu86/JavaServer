@@ -13,6 +13,6 @@ public class RoutesDispatcherTest {
     public void testGetRoutesMethod() {
         String[] expectedResponse = new String[]{"GET", "HEAD", "POST", "OPTIONS", "PUT"};
         assert(Arrays.equals(expectedResponse, RoutesDispatcher.getRouteMethods("/method_options")));
-        assert(Arrays.equals(new String[]{"GET", "OPTIONS"}, RoutesDispatcher.getRouteMethods("/")));
+        assert(Arrays.equals(new String[]{"GET"}, RoutesDispatcher.getRouteMethods("/")));
     }
 }

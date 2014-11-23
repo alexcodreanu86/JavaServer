@@ -8,6 +8,7 @@ import com.java_server.routing.methods.POST;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 /**
@@ -24,7 +25,7 @@ public class POSTTest {
         try {
             Response response = postRouter.getResponse();
             assertEquals(expectedResponse, response.getResponseLine());
-            assertEquals(body, response.getBody());
+            assert(Arrays.equals(body.getBytes(), response.getBody()));
         }
         catch (IOException e) {
             fail(e.toString());

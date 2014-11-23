@@ -3,6 +3,7 @@ package routing.methods;
 import com.java_server.data_storage.FilesData;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
+import com.java_server.routing.RoutesDispatcher;
 import com.java_server.routing.methods.GET;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,15 +18,15 @@ import java.util.Hashtable;
 public class GETTest {
     @Test
 
-    public void testGetResponse_addsTheBodyForAValidRequestedRoute() throws IOException {
+    public void testGetResponse_addsTheBodyForAValidRequestRoute() throws IOException {
         String route = "/hello";
         String routeBody = "hello world";
+        RoutesDispatcher.addRouteWithMethods(route, new String[] {"GET"});
         FilesData.addFileWithData(route, routeBody);
-        Response response = new GET(newRequest(route)).getResponse();
-        response.addHeader("Allow", "GET");
 
+        Response response = new GET(newRequest(route)).getResponse();
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
-                                  "Allow: GET" +
+                                  "Content-Type: text/html" +
                                   "\r\n\r\n" +
                                   "hello world";
 
@@ -33,11 +34,14 @@ public class GETTest {
     }
 
     @Test
-    public void testGetResponse_ReturnsAnInvalidResponseIfFileDoesntExist() throws IOException {
-        String route = "/otherRoute";
-        Response response = new GET(newRequest(route)).getResponse();
+    public void testGetResponse_returnsANotAllowedResponseWhenMethodIsNotAllowedForRoute() throws IOException {
+        String route = "/trigger_alarm";
+        String routeBody = "ALARM!!!!";
+        FilesData.addFileWithData(route, routeBody);
+        RoutesDispatcher.addRouteWithMethods(route, new String[] {"POST"});
 
-        String expectedResponse = "HTTP/1.1 404 Not Found\r\n\r\n";
+        Response response = new GET(newRequest(route)).getResponse();
+        String expectedResponse = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
 
         assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
