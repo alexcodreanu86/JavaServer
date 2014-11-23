@@ -15,6 +15,6 @@ public class ResponseSender {
     }
 
     public void send() throws IOException{
-        this.outputStream.writeBytes(response.render());
+        this.outputStream.write(response.render());
     }
 }

@@ -1,5 +1,6 @@
 package com.java_server.routing.methods;
 
+import com.java_server.data_storage.FilesData;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseCodes;
@@ -18,10 +19,22 @@ public class GET extends RouteMethod {
     }
 
     public Response getResponse() throws IOException {
-        return createSuccessResponse();
+        byte[] responseBody = FilesData.getFileData(request.getUrl());
+        if (responseBody != null) {
+            return createSuccessResponse(responseBody);
+        } else {
+            return createInvalidResponse();
+        }
     }
 
-    private Response createSuccessResponse() throws IOException {
-        return new Response(okCode, ResponseCodes.getReasonPhrase(okCode));
+    private Response createInvalidResponse() {
+        return new Response(notFound, ResponseCodes.getReasonPhrase(notFound));
+    }
+
+    private Response createSuccessResponse(byte[] responseBody) throws IOException {
+        Response response = new Response(okCode, ResponseCodes.getReasonPhrase(okCode));
+        response.addHeader("Content-Type", "text/html");
+        response.addToBody(responseBody);
+        return response;
     }
 }

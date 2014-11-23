@@ -1,10 +1,10 @@
-package routing;
+package routing.methods;
 
 import static org.junit.Assert.*;
 
 import com.java_server.request.Request;
 import com.java_server.response.Response;
-import com.java_server.routing.POST;
+import com.java_server.routing.methods.POST;
 import org.junit.Test;
 
 import java.io.IOException;

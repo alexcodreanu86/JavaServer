@@ -1,14 +1,13 @@
-package routing;
+package routing.methods;
 
 import com.java_server.request.Request;
 import com.java_server.response.Response;
-import com.java_server.routing.OPTIONS;
+import com.java_server.routing.methods.OPTIONS;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import static org.junit.Assert.*;

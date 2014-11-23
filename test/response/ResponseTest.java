@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import com.java_server.response.Response;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * Created by Alex Codreanu on 11/20/14.
  */
@@ -20,7 +22,7 @@ public class ResponseTest {
         Response response = new Response("200", "OK");
         String testBody = "date=today";
         response.addToBody(testBody);
-        assertEquals(response.getBody(), testBody);
+        assert(Arrays.equals(response.getBody(), testBody.getBytes()));
     }
 
     @Test
@@ -29,9 +31,19 @@ public class ResponseTest {
         String testBody = "date=today";
         response.addToBody(testBody);
         response.addToBody(testBody);
-        assertEquals(response.getBody(), testBody + "\r\n" + testBody);
+        byte[] expectedBody = (testBody + "\r\n" + testBody).getBytes();
+        assert(Arrays.equals(expectedBody, response.getBody()));
     }
 
+    @Test
+    public void addBodyAddsByteContentsToBody() {
+        Response response = new Response("200", "OK");
+        String testBody = "date=today";
+        response.addToBody(testBody.getBytes());
+        response.addToBody(testBody.getBytes());
+        byte[] expectedBody = (testBody + "\r\n" + testBody).getBytes();
+        assert(Arrays.equals(expectedBody, response.getBody()));
+    }
     @Test
     public void renderIsRenderingTheFullResponse() {
         Response response = new Response("200", "OK");
@@ -44,6 +56,6 @@ public class ResponseTest {
                                   "Test: Testing" +
                                   "\r\n\r\n" +
                                   "date=today";
-        assertEquals(expectedResponse, response.render());
+        assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
 }

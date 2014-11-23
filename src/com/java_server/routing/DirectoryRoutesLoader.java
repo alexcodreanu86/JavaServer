@@ -1,6 +1,7 @@
 package com.java_server.routing;
 
 import com.java_server.data_storage.FilesData;
+import com.java_server.templates.DirectoryContentTemplate;
 
 import java.io.*;
 
@@ -9,26 +10,32 @@ import java.io.*;
  */
 public class DirectoryRoutesLoader {
     public static void loadDirectoryContents(File directory) {
+        createRootPath(directory);
+        createDirectoryContentsPaths(directory);
+    }
+
+    private static void createDirectoryContentsPaths( File directory) {
         File[] directoryContents = directory.listFiles();
         if (directoryContents != null) {
-            for(File file : directoryContents) {
+            for (File file : directoryContents) {
                 String fileName = file.toString().substring(directory.toString().length());
-                RoutesDispatcher.addRouteWithMethods(fileName, new String[] {"GET"});
-
-                FilesData.addFileWithData(fileName, readFileContents(file));
+                setupFileRoute(fileName, readFileContents(file));
             }
         }
-        printFileContents(FilesData.getFileData("/file2"));
     }
 
-    private static void printFileContents(byte[] contents) {
-        //TODO Files can be accessed from the FilesData
-        for (byte character : contents) {
-            System.out.print((char) character);
-        }
+    private static void setupFileRoute(String fileName, byte[] fileData) {
+        RoutesDispatcher.addRouteWithMethods(fileName, new String[] {"GET"});
+
+        FilesData.addFileWithData(fileName, fileData);
     }
 
-    public static byte[] readFileContents(File file) {
+    private static void createRootPath(File directory) {
+        String template =  new DirectoryContentTemplate(directory).render();
+        setupFileRoute("/", template.getBytes());
+    }
+
+    private static byte[] readFileContents(File file) {
         ByteArrayOutputStream fileContents = new ByteArrayOutputStream();
         try {
             FileInputStream fileInput = new FileInputStream(file);

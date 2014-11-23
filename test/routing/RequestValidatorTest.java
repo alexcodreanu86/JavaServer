@@ -1,7 +1,7 @@
 package routing;
 
 import com.java_server.request.Request;
-import com.java_server.routing.RequestValidator;
+import com.java_server.request.RequestValidator;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

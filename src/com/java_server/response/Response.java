@@ -1,5 +1,7 @@
 package com.java_server.response;
 
+import com.java_server.utils.ArrayJoiner;
+
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -10,12 +12,15 @@ public class Response {
     String HttpVersion = "HTTP/1.1";
     String lineDivider = "\r\n";
     String headerColon = ": ";
-    private String body, code, reasonPhrase;
+
+    private byte[] body;
+
+    private String code, reasonPhrase;
     private Hashtable<String, String> headers;
     public Response(String inCode, String phrase){
         this.code = inCode;
         this.reasonPhrase = phrase;
-        this.body = "";
+        this.body = new byte[0];
         this.headers = new Hashtable<String, String>();
     }
 
@@ -32,18 +37,27 @@ public class Response {
     }
 
     public void addToBody(String bodyLine) {
-        if (body.length() > 0) {
-            this.body += lineDivider;
-        }
-        this.body += bodyLine;
+        addToBody(bodyLine.getBytes());
     }
 
-    public String getBody() {
+    public void addToBody(byte[] bodyLine) {
+        if (body.length > 0) {
+            this.body = addByteArrays(this.body, lineDivider.getBytes());
+        }
+        this.body = addByteArrays(this.body, bodyLine);
+    }
+
+    private byte[] addByteArrays(byte[] original, byte[] toBeAdded) {
+        return ArrayJoiner.join(original, toBeAdded);
+    }
+
+    public byte[] getBody() {
         return this.body;
     }
 
-    public String render() {
-        return this.getResponseLine() + lineDivider + renderHeaders() + lineDivider + getBody();
+    public byte[] render() {
+        String headContent = this.getResponseLine() + lineDivider + renderHeaders() + lineDivider;
+        return  addByteArrays(headContent.getBytes(),getBody());
     }
 
     private String renderHeaders() {
