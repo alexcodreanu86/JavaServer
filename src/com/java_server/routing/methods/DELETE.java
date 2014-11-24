@@ -9,27 +9,22 @@ import com.java_server.routing.RoutesDispatcher;
 import java.io.IOException;
 
 /**
- * Created by Alex Codreanu on 11/20/14.
+ * Created by Alex Codreanu on 11/23/14.
  */
-public class GET extends RouteMethod {
+public class DELETE extends RouteMethod {
     private Request request;
-
-    public GET(Request inRequest) {
+    public DELETE(Request inRequest) {
         this.request = inRequest;
     }
 
     public Response getResponse() throws IOException {
-        Route route = RoutesDispatcher.getRoute(request.getUrl());
-        byte[] responseBody = route.getData();
-
-        return createSuccessResponse(responseBody);
+        return createSuccessResponse();
     }
 
-    private Response createSuccessResponse(byte[] responseBody) throws IOException {
+    private Response createSuccessResponse() throws IOException {
         Response response = ResponseFactory.OK();
-        response.addHeader("Content-Type", "text/html");
-        response.addToBody(responseBody);
-
+        Route route = RoutesDispatcher.getRoute(request.getUrl());
+        route.setData(new byte[0]);
         return response;
     }
 }

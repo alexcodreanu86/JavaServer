@@ -3,17 +3,17 @@ package com.java_server.routing.methods;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseCodes;
+import com.java_server.response.ResponseFactory;
 
 /**
  * Created by Alex Codreanu on 11/21/14.
  */
-public class NOTFOUND extends RouteMethod {
-    private String notFoundCode = "404";
+public class NotAllowed extends RouteMethod {
     private Request request;
-    public NOTFOUND(Request request) {
+    public NotAllowed(Request request) {
         this.request = request;
     }
    public Response getResponse() {
-       return new Response(notFoundCode, ResponseCodes.getReasonPhrase(notFoundCode));
+       return ResponseFactory.methodNotAllowed();
    }
 }

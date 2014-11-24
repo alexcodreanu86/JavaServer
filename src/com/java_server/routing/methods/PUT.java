@@ -3,6 +3,9 @@ package com.java_server.routing.methods;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseCodes;
+import com.java_server.response.ResponseFactory;
+import com.java_server.routing.Route;
+import com.java_server.routing.RoutesDispatcher;
 
 import java.io.IOException;
 
@@ -11,8 +14,6 @@ import java.io.IOException;
  */
 public class PUT extends RouteMethod {
     private Request request;
-    private final String okCode = "200";
-    private final String notFound = "404";
 
     public PUT(Request inRequest) {
         this.request = inRequest;
@@ -23,12 +24,9 @@ public class PUT extends RouteMethod {
     }
 
     private Response createSuccessResponseWithData(String data) throws IOException {
-        Response response = new Response(okCode, ResponseCodes.getReasonPhrase(okCode));
-        response.addToBody(data);
+        Response response = ResponseFactory.OK();
+        Route route = RoutesDispatcher.getRoute(request.getUrl());
+        route.setData(data.getBytes());
         return response;
-    }
-
-    private Response createFailResponse() throws IOException {
-        return new Response(notFound, ResponseCodes.getReasonPhrase(notFound));
     }
 }

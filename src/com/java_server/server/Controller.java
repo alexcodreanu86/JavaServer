@@ -2,6 +2,7 @@ package com.java_server.server;
 
 import com.java_server.args.GlobalArguments;
 import com.java_server.routing.DirectoryRoutesLoader;
+import com.java_server.routing.RoutesGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class Controller {
 
     public void listen() throws IOException {
         System.out.println("Listening on port " + serverSocket.getLocalPort());
-        DirectoryRoutesLoader.loadDirectoryContents(new File(GlobalArguments.getRootDirectory()));
+        RoutesGenerator.generate();
 
         while (true) {
             new ClientConnection(serverSocket.accept()).run();

@@ -1,7 +1,7 @@
 package routing;
 
 import com.java_server.request.Request;
-import com.java_server.routing.*;
+import com.java_server.request.RequestValidator;
 import com.java_server.routing.methods.*;
 import org.junit.Test;
 
@@ -17,7 +17,8 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "requestBody=body";
         Request request = newRequest(url, body, "POST");
-        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
+        RequestValidator validator = new RequestValidator(request);
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
     }
 
     @Test
@@ -25,7 +26,8 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "";
         Request request = newRequest(url, body, "OPTIONS");
-        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
+        RequestValidator validator = new RequestValidator(request);
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
         assert(method instanceof OPTIONS);
 
     }
@@ -35,7 +37,8 @@ public class RouteMethodFactoryTest {
         String url = "/method_options";
         String body = "";
         Request request = newRequest(url, body, "GET");
-        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
+        RequestValidator validator = new RequestValidator(request);
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
         assert(method instanceof GET);
     }
 
@@ -44,9 +47,10 @@ public class RouteMethodFactoryTest {
         String url = "/invalid/url/here";
         String body = "";
         Request request = newRequest(url, body, "POST");
-        RouteMethod method = RouteMethodFactory.generateInvalidMethod(request);
+        RequestValidator validator = new RequestValidator(request);
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
 
-        assert(method instanceof NOTFOUND);
+        assert(method instanceof NotAllowed);
     }
 
     private Request newRequest(String url, String body, String method) {

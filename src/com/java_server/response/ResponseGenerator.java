@@ -3,7 +3,7 @@ package com.java_server.response;
 import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
 import com.java_server.routing.methods.RouteMethod;
-import com.java_server.routing.RouteMethodFactory;
+import com.java_server.routing.methods.RouteMethodFactory;
 import com.java_server.routing.RoutesDispatcher;
 
 import java.io.IOException;
@@ -13,23 +13,22 @@ import java.io.IOException;
  * Created by Alex Codreanu on 11/21/14.
  */
 public class ResponseGenerator {
-    static String notFoundCode = "404";
-
     public static Response generate(Request request) {
-        if (new RequestValidator(request).isValidRequest()) {
+        RequestValidator validator = new RequestValidator(request);
+        if (validator.isValidUrl()) {
             try {
-                return validResponse(request);
+                return validResponse(request, validator);
             }
             catch (IOException e) {
-                return invalidResponse(request);
+                return ResponseFactory.notFound();
             }
         } else {
-            return invalidResponse(request);
+            return ResponseFactory.notFound();
         }
     }
 
-    private static Response validResponse (Request request) throws IOException {
-        RouteMethod method = RouteMethodFactory.buildRouteMethod(request);
+    private static Response validResponse(Request request, RequestValidator validator) throws IOException {
+        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
         Response response = method.getResponse();
         addOptionsToHeaders(response, request);
         return response;
@@ -40,9 +39,6 @@ public class ResponseGenerator {
         response.addHeader("Allow", buildAllowHeader(routeMethods));
     }
 
-    private static Response invalidResponse(Request request) {
-        return new Response(notFoundCode, ResponseCodes.getReasonPhrase(notFoundCode));
-    }
     private static String buildAllowHeader(String[] routes) {
         String headerValue = "";
         for(String methodName : routes) {

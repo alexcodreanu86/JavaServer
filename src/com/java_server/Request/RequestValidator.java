@@ -17,7 +17,7 @@ public class RequestValidator {
         this.route = RoutesDispatcher.getRoute(request.getUrl());
     }
 
-    public boolean isValidRequest() {
+    public boolean isValidUrl() {
         return this.route != null;
     }
 

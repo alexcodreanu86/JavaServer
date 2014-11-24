@@ -21,7 +21,7 @@ public class RequestValidatorTest {
         RoutesDispatcher.addRoute(route);
         Request request = newRequest(url, body, "GET");
         RequestValidator validator = new RequestValidator(request);
-        assertTrue(validator.isValidRequest());
+        assertTrue(validator.isValidUrl());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class RequestValidatorTest {
 
         Request request = newRequest(url, body, "GET");
         RequestValidator validator = new RequestValidator(request);
-        assertFalse(validator.isValidRequest());
+        assertFalse(validator.isValidUrl());
     }
 
     @Test
