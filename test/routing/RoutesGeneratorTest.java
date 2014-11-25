@@ -60,6 +60,23 @@ public class RoutesGeneratorTest {
         assert(Arrays.equals(expectedMethods, routeMethods));
     }
 
+    @Test
+    public void testGenerate_generatesTheRedirectRoute() throws IOException{
+        RoutesGenerator.generate();
+        String[] expectedMethods = new String[] {"GET"};
+        String[] routeMethods = RoutesDispatcher.getRoute("/redirect").getMethods();
+
+        assert(Arrays.equals(expectedMethods, routeMethods));
+    }
+
+    @Test
+    public void testGenerate_generatesParamsRoute() throws IOException{
+        RoutesGenerator.generate();
+        String[] expectedMethods = new String[] {"GET"};
+        String[] routeMethods = RoutesDispatcher.getRoute("/parameters").getMethods();
+
+        assert(Arrays.equals(expectedMethods, routeMethods));
+    }
     private File createFileWithText(String filePath, String text) throws IOException {
         File file = createFile(filePath);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));

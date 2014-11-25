@@ -15,4 +15,16 @@ public class ResponseFactory {
     public static Response OK() {
         return new Response("200", ResponseCodes.getReasonPhrase("200"));
     }
+
+    public static Response partialContent() {
+        return new Response("206", ResponseCodes.getReasonPhrase("206"));
+    }
+
+    public static Response movedPermanently() {
+        return new Response("301", ResponseCodes.getReasonPhrase("301"));
+    }
+
+    public static Response found() {
+        return new Response("302", ResponseCodes.getReasonPhrase("302"));
+    }
 }

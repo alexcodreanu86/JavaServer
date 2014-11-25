@@ -26,4 +26,21 @@ public class ResponseFactoryTest {
         Response response = ResponseFactory.OK();
         assertEquals(response.getResponseLine(), "HTTP/1.1 200 OK");
     }
+
+    @Test
+    public void partialContent() {
+        Response response = ResponseFactory.partialContent();
+        assertEquals(response.getResponseLine(), "HTTP/1.1 206 Partial Content");
+    }
+    @Test
+    public void testMovedPermanently() {
+        Response response = ResponseFactory.movedPermanently();
+        assertEquals(response.getResponseLine(), "HTTP/1.1 301 Moved Permanently");
+    }
+
+    @Test
+    public void found() {
+        Response response = ResponseFactory.found();
+        assertEquals(response.getResponseLine(), "HTTP/1.1 302 Found");
+    }
 }

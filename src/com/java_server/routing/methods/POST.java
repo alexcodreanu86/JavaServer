@@ -28,5 +28,4 @@ public class POST extends RouteMethod {
         route.setData(data.getBytes());
         return response;
     }
-
 }

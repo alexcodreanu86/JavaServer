@@ -1,5 +1,6 @@
 package routing.methods;
 
+import com.java_server.args.GlobalArguments;
 import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.routing.Route;
@@ -31,9 +32,92 @@ public class GETTest {
         assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
 
+    @Test
+    public void testGetResponse_returnsRedirectResponseWhenRequestRouteIsredirect() throws IOException {
+        String routePath = "/redirect";
+        Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
+        GlobalArguments.setArgs(new String[0]);
+
+        Response response = new GET(newRequest(routePath)).getResponse();
+        String expectedResponse = "HTTP/1.1 301 Moved Permanently\r\n" +
+                "Location: http://localhost:5000/" +
+                "\r\n\r\n";
+
+        assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
+    }
+
+    @Test
+    public void testGetResponse_addsTheParamsToTheBodyWhenThereAreParams() throws IOException {
+        String routePath = "/params";
+        String params = "?param1=test1&param2=test2";
+        Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
+        RoutesDispatcher.addRoute(route);
+        GlobalArguments.setArgs(new String[0]);
+
+        Response response = new GET(newRequest(routePath + params)).getResponse();
+        String expectedResponse = "HTTP/1.1 200 OK\r\n" +
+                                  "Content-Type: text/html" +
+                                  "\r\n\r\n" +
+                                  "param2 = test2\r\n" +
+                                  "param1 = test1";
+
+        assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
+    }
+
+    @Test
+    public void testGetResponse_returnsPartialContentWhenRangeHeaderExiste() throws IOException {
+        String routePath = "/route";
+        Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
+        RoutesDispatcher.addRoute(route);
+        GlobalArguments.setArgs(new String[0]);
+        Hashtable<String, String> headers = new Hashtable<String, String>();
+        headers.put("Range", "bytes=0-4");
+
+
+        Response response = new GET(newRequest(routePath, headers)).getResponse();
+
+        assert(Arrays.equals("some ".getBytes(), response.getBody()));
+    }
+
+    @Test
+    public void testGetResponse_returnsPartialContentRangeHeaderContainsOnlyEndOfRange() throws IOException {
+        String routePath = "/route";
+        Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
+        RoutesDispatcher.addRoute(route);
+        GlobalArguments.setArgs(new String[0]);
+
+        Hashtable<String, String> headers = new Hashtable<String, String>();
+        headers.put("Range", "bytes=-4");
+
+        Response response = new GET(newRequest(routePath, headers)).getResponse();
+
+        assert(Arrays.equals("here".getBytes(), response.getBody()));
+        assert(response.getResponseLine().equals("HTTP/1.1 206 Partial Content"));
+    }
+
+    @Test
+    public void testGetResponse_returnsPartialContentWhenRangeHeaderHasOnlyStartRange() throws IOException {
+        String routePath = "/route";
+        Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
+        RoutesDispatcher.addRoute(route);
+        GlobalArguments.setArgs(new String[0]);
+
+
+        Hashtable<String, String> headers = new Hashtable<String, String>();
+        headers.put("Range", "bytes=5-");
+
+        Response response = new GET(newRequest(routePath, headers)).getResponse();
+
+        assert(Arrays.equals("data in here".getBytes(), response.getBody()));
+    }
+
     private Request newRequest(String url) {
+        return newRequest(url, new Hashtable());
+    }
+
+    private Request newRequest(String url, Hashtable headers) {
         String method = "GET";
-        Hashtable headers = new Hashtable();
         return new Request(method, url, "", headers);
     }
 }

@@ -18,7 +18,7 @@ public class RequestGenerator {
         String method = getMethod(requestLine);
         String url = getUrl(requestLine);
         String[] rest = getRestOfContent(reader);
-        Hashtable headers = getHeaders(rest[0]);
+        Hashtable<String, String> headers = getHeaders(rest[0]);
         if (rest.length > 1) {
             body = rest[1];
         }
@@ -44,7 +44,7 @@ public class RequestGenerator {
         return requestLine.split(whiteSpaceMatcher)[1];
     }
 
-    private static Hashtable getHeaders(String request) {
+    private static Hashtable<String, String> getHeaders(String request) {
         String[] headersStr = request.split("\r\n");
         Hashtable<String, String> headers = new Hashtable<String, String>();
         for (String headerLine: headersStr) {
