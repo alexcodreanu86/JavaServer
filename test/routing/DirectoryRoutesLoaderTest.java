@@ -45,7 +45,7 @@ public class DirectoryRoutesLoaderTest {
         String directoryTemplate = new DirectoryContentTemplate(file.getParentFile()).render();
 
         assert(Arrays.equals(directoryTemplate.getBytes(), RoutesDispatcher.getRoute("/").getData()));
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute("/").getMethods()));
+        assert(Arrays.equals(new String[] {"GET", "PATCH"}, RoutesDispatcher.getRoute("/").getMethods()));
 
         deleteDirectory(new File(directoryPath));
     }
@@ -59,8 +59,8 @@ public class DirectoryRoutesLoaderTest {
 
         DirectoryRoutesLoader.loadDirectoryContents(file.getParentFile());
 
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute(filePath1).getMethods()));
-        assert(Arrays.equals(new String[] {"GET"}, RoutesDispatcher.getRoute(filePath2).getMethods()));
+        assert(Arrays.equals(new String[] {"GET", "PATCH"}, RoutesDispatcher.getRoute(filePath1).getMethods()));
+        assert(Arrays.equals(new String[] {"GET", "PATCH"}, RoutesDispatcher.getRoute(filePath2).getMethods()));
 
         deleteDirectory(new File(directoryPath));
     }

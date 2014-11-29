@@ -11,16 +11,21 @@ import static org.junit.Assert.*;
 public class ResponseFactoryTest {
     @Test
     public void testMethodNotAllowed_returnsA405Response() {
-        Response response = ResponseFactory.methodNotAllowed();
+        Response response = ResponseFactory.MethodNotAllowed();
         assertEquals(response.getResponseLine(), "HTTP/1.1 405 Method Not Allowed");
     }
 
     @Test
     public void testNotFound() {
-        Response response = ResponseFactory.notFound();
+        Response response = ResponseFactory.NotFound();
         assertEquals(response.getResponseLine(), "HTTP/1.1 404 Not Found");
     }
 
+    @Test
+    public void testUnauthorized() {
+        Response response = ResponseFactory.Unauthorized();
+        assertEquals(response.getResponseLine(), "HTTP/1.1 401 Unauthorized");
+    }
     @Test
     public void testOK() {
         Response response = ResponseFactory.OK();
@@ -28,19 +33,25 @@ public class ResponseFactoryTest {
     }
 
     @Test
+    public void testNoContent() {
+        Response response = ResponseFactory.NoContent();
+        assertEquals(response.getResponseLine(), "HTTP/1.1 204 No Content");
+    }
+
+    @Test
     public void partialContent() {
-        Response response = ResponseFactory.partialContent();
+        Response response = ResponseFactory.PartialContent();
         assertEquals(response.getResponseLine(), "HTTP/1.1 206 Partial Content");
     }
     @Test
     public void testMovedPermanently() {
-        Response response = ResponseFactory.movedPermanently();
+        Response response = ResponseFactory.MovedPermanently();
         assertEquals(response.getResponseLine(), "HTTP/1.1 301 Moved Permanently");
     }
 
     @Test
     public void found() {
-        Response response = ResponseFactory.found();
+        Response response = ResponseFactory.Found();
         assertEquals(response.getResponseLine(), "HTTP/1.1 302 Found");
     }
 }

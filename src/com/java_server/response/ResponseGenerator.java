@@ -1,5 +1,6 @@
 package com.java_server.response;
 
+import com.java_server.auth.Authenticator;
 import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
 import com.java_server.routing.methods.RouteMethod;
@@ -14,16 +15,25 @@ import java.io.IOException;
  */
 public class ResponseGenerator {
     public static Response generate(Request request) {
+        //TODO check for authentication
         RequestValidator validator = new RequestValidator(request);
         if (validator.isValidUrl()) {
-            try {
-                return validResponse(request, validator);
-            }
-            catch (IOException e) {
-                return ResponseFactory.notFound();
-            }
+            return validatedRequest(request, validator);
         } else {
-            return ResponseFactory.notFound();
+            return ResponseFactory.NotFound();
+        }
+    }
+
+    private static Response validatedRequest(Request request, RequestValidator validator) {
+        try {
+            if (new Authenticator(request).isAuthorized()) {
+                return validResponse(request, validator);
+            } else {
+                return unauthorizedResponse();
+            }
+        }
+        catch (IOException e) {
+            return ResponseFactory.NotFound();
         }
     }
 
@@ -31,6 +41,12 @@ public class ResponseGenerator {
         RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
         Response response = method.getResponse();
         addOptionsToHeaders(response, request);
+        return response;
+    }
+
+    private static Response unauthorizedResponse() {
+        Response response = ResponseFactory.Unauthorized();
+        response.addToBody("Authentication required".getBytes());
         return response;
     }
 

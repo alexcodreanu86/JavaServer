@@ -39,6 +39,32 @@ public class ResponseGeneratorTest {
     }
 
     @Test
+    public void generateReponse_generatesAnInvalidRequestIsInvalid()
+            throws IOException {
+        String url = "/method_options";
+        String body = "requestBody=body";
+        Request request = newRequest(url, body, "DELETE");
+        Response response = ResponseGenerator.generate(request);
+
+        assertEquals("HTTP/1.1 405 Method Not Allowed", response.getResponseLine());
+    }
+
+
+    @Test
+    public void generateReponse_generatesAnUnauthorizedResponseWhenAuthorizationIsRequiredButNotProvided()
+            throws IOException {
+        String url = "/authenticate";
+        String body = "requestBody=body";
+        Route route = new Route(url, new String[] {"GET"}, new byte[0], true);
+        RoutesDispatcher.addRoute(route);
+        Request request = newRequest(url, body, "GET");
+        Response response = ResponseGenerator.generate(request);
+
+        assertEquals("HTTP/1.1 401 Unauthorized", response.getResponseLine());
+        assert(Arrays.equals("Authentication required".getBytes(), response.getBody()));
+    }
+
+    @Test
     public void generateReponse_generatesAValidResponseWhenTheRequestIsValid()
             throws IOException {
         String url = "/method_options";
@@ -52,7 +78,6 @@ public class ResponseGeneratorTest {
 
         assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
-
 
     private Request newRequest(String url, String body, String method) {
         Hashtable headers = new Hashtable();

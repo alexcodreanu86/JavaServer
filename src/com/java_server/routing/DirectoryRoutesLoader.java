@@ -34,7 +34,7 @@ public class DirectoryRoutesLoader {
     }
 
     private static void setupGetFileRoute(String fileName, byte[] fileData) {
-        setupFileRoute(fileName, new String[] {"GET"}, fileData);
+        setupFileRoute(fileName, new String[] {"GET", "PATCH"}, fileData);
     }
 
     private static byte[] readFileContents(File file) {

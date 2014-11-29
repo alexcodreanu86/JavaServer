@@ -22,7 +22,7 @@ public class Controller {
         RoutesGenerator.generate();
 
         while (true) {
-            new ClientConnection(serverSocket.accept()).run();
+            new ClientConnection(serverSocket.accept()).start();
         }
     }
 }

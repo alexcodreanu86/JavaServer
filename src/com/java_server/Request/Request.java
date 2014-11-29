@@ -10,16 +10,32 @@ import java.util.Hashtable;
 public class Request {
     String paramsDelimiter = "\\?";
     String paramsSeparator = "\\&";
-    private String method, url, body;
+    private String method, url, body, requestLine;
     private Hashtable<String, String> headers = new Hashtable<String, String>();
     private Hashtable<String, String> params = new Hashtable<String, String>();
 
     public Request(String inMethod, String inUrl, String inBody, Hashtable<String, String> inHeaders) {
-        this.method  = inMethod;
-        this.url     = processUrl(inUrl);
-        this.body    = inBody;
-        this.headers = inHeaders;
+        this(inMethod, inUrl, inBody, inHeaders, inMethod + inUrl + "HTTP/1.1");
+    }
+
+    public Request(String inMethod,
+                   String inUrl,
+                   String inBody,
+                   Hashtable<String,
+                   String> inHeaders,
+                   String inRequestLine) {
+
+        this.method      = inMethod;
+        this.url         = processUrl(inUrl);
+        this.body        = inBody;
+        this.headers     = inHeaders;
+        this.requestLine = inRequestLine;
         processParams(inUrl);
+
+    }
+
+    public String getRequestLine() {
+        return requestLine;
     }
 
     public Hashtable<String, String> getParams() {

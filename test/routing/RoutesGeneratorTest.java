@@ -1,6 +1,7 @@
 package routing;
 
 import com.java_server.args.GlobalArguments;
+import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.routing.RoutesGenerator;
 import org.junit.After;
@@ -35,7 +36,7 @@ public class RoutesGeneratorTest {
     @Test
     public void testGenerate_generatesTheDirectoryContentsRoutes() throws IOException{
         RoutesGenerator.generate();
-        String[] expectedMethods = new String[] {"GET"};
+        String[] expectedMethods = new String[] {"GET", "PATCH"};
         String[] routeMethods = RoutesDispatcher.getRoute(filePath1).getMethods();
 
         assert(Arrays.equals(expectedMethods, routeMethods));
@@ -49,6 +50,17 @@ public class RoutesGeneratorTest {
         String[] routeMethods = RoutesDispatcher.getRoute("/method_options").getMethods();
 
         assert(Arrays.equals(expectedMethods, routeMethods));
+    }
+
+    @Test
+    public void testGenerate_generatesLogsRouteWithAuthenticationRequired() throws IOException{
+        RoutesGenerator.generate();
+        String[] expectedMethods = new String[] { "GET" };
+        Route route = RoutesDispatcher.getRoute("/logs");
+        String[] routeMethods = route.getMethods();
+
+        assert(Arrays.equals(expectedMethods, routeMethods));
+        assert(route.requiresAuthentication());
     }
 
     @Test

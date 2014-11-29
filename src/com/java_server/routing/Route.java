@@ -7,11 +7,20 @@ package com.java_server.routing;
 public class Route {
     String url, methods[];
     byte[] data;
+    private boolean requiresAuth;
 
     public Route(String inUrl, String[] inMethods, byte[] inData) {
+        this(inUrl, inMethods, inData, false);
+    }
+    public Route(String inUrl, String[] inMethods, byte[] inData, boolean inRequiresAuth) {
         this.url = inUrl;
         this.methods = inMethods;
         this.data = inData;
+        this.requiresAuth = inRequiresAuth;
+    }
+
+    public boolean requiresAuthentication() {
+        return this.requiresAuth;
     }
 
     public byte[] getData() {

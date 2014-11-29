@@ -2,7 +2,6 @@ package com.java_server.routing.methods;
 
 import com.java_server.request.Request;
 import com.java_server.response.Response;
-import com.java_server.response.ResponseCodes;
 import com.java_server.response.ResponseFactory;
 
 /**
@@ -14,6 +13,6 @@ public class NotAllowed extends RouteMethod {
         this.request = request;
     }
    public Response getResponse() {
-       return ResponseFactory.methodNotAllowed();
+       return ResponseFactory.MethodNotAllowed();
    }
 }

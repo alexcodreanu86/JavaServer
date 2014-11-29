@@ -5,6 +5,7 @@ import com.java_server.request.RequestGenerator;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseGenerator;
 import com.java_server.response.ResponseSender;
+import com.java_server.utils.Logger;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -27,12 +28,17 @@ public class Router {
 
     public void processRequest() {
         try {
-            this.respond(generateRequest());
+            Request request = generateRequest();
+            this.logRequest(request);
+            this.respond(request);
         }
         catch (IOException e) {
-            //TODO invalid request
             closeConnection();
         }
+    }
+
+    private void logRequest(Request request) {
+        Logger.log(request.getRequestLine());
     }
 
     private void respond(Request request) throws IOException {

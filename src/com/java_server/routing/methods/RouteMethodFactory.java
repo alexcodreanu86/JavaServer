@@ -26,6 +26,8 @@ public class RouteMethodFactory {
             return new PUT(request);
         } else if (methodName.equals("DELETE")) {
             return new DELETE(request);
+        } else if (methodName.equals("PATCH")){
+            return new PATCH(request);
         } else {
             return new GET(request);
         }

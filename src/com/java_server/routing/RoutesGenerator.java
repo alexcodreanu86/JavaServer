@@ -14,6 +14,13 @@ public class RoutesGenerator {
         generateFormPath();
         generateRedirectPath();
         generateParamsRoute();
+        generateLogsRoute();
+    }
+
+    private static void generateLogsRoute() {
+        addAuthenticatedRoute("/logs",
+                            new String[] {"GET"},
+                            true);
     }
 
     private static void generateMethodOptions() {
@@ -35,9 +42,14 @@ public class RoutesGenerator {
     }
 
     private static void addRouteWithMethods(String routeUrl, String[] methods) {
+        addAuthenticatedRoute(routeUrl, methods, false);
+    }
+
+    private static void addAuthenticatedRoute(String routeUrl, String[] methods, boolean requiresAuth) {
         Route route = new Route(routeUrl,
-                                methods,
-                                new byte[0]);
+                methods,
+                new byte[0],
+                requiresAuth);
         RoutesDispatcher.addRoute(route);
     }
     private static void generateDirectoryContents() {

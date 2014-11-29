@@ -27,7 +27,7 @@ public class GETTest {
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
                                   "Content-Type: text/html" +
                                   "\r\n\r\n" +
-                                  "hello world";
+                                  "hello world\r\n";
 
         assert(Arrays.equals(expectedResponse.getBytes(), response.render()));
     }
@@ -53,7 +53,6 @@ public class GETTest {
         String params = "?param1=test1&param2=test2";
         Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
         RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
 
         Response response = new GET(newRequest(routePath + params)).getResponse();
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
@@ -66,11 +65,10 @@ public class GETTest {
     }
 
     @Test
-    public void testGetResponse_returnsPartialContentWhenRangeHeaderExiste() throws IOException {
+    public void testGetResponse_returnsPartialContentWhenRangeHeaderExists() throws IOException {
         String routePath = "/route";
         Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
         RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
         Hashtable<String, String> headers = new Hashtable<String, String>();
         headers.put("Range", "bytes=0-4");
 
@@ -78,38 +76,7 @@ public class GETTest {
         Response response = new GET(newRequest(routePath, headers)).getResponse();
 
         assert(Arrays.equals("some ".getBytes(), response.getBody()));
-    }
-
-    @Test
-    public void testGetResponse_returnsPartialContentRangeHeaderContainsOnlyEndOfRange() throws IOException {
-        String routePath = "/route";
-        Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
-        RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
-
-        Hashtable<String, String> headers = new Hashtable<String, String>();
-        headers.put("Range", "bytes=-4");
-
-        Response response = new GET(newRequest(routePath, headers)).getResponse();
-
-        assert(Arrays.equals("here".getBytes(), response.getBody()));
         assert(response.getResponseLine().equals("HTTP/1.1 206 Partial Content"));
-    }
-
-    @Test
-    public void testGetResponse_returnsPartialContentWhenRangeHeaderHasOnlyStartRange() throws IOException {
-        String routePath = "/route";
-        Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
-        RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
-
-
-        Hashtable<String, String> headers = new Hashtable<String, String>();
-        headers.put("Range", "bytes=5-");
-
-        Response response = new GET(newRequest(routePath, headers)).getResponse();
-
-        assert(Arrays.equals("data in here".getBytes(), response.getBody()));
     }
 
     private Request newRequest(String url) {
