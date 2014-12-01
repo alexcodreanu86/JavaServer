@@ -5,7 +5,7 @@ import com.java_server.request.RequestGenerator;
 import com.java_server.response.Response;
 import com.java_server.response.ResponseGenerator;
 import com.java_server.response.ResponseSender;
-import com.java_server.utils.Logger;
+import com.java_server.server.Logger;
 
 import java.io.*;
 

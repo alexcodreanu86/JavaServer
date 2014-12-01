@@ -3,8 +3,8 @@ package com.java_server.response;
 import com.java_server.auth.Authenticator;
 import com.java_server.request.Request;
 import com.java_server.request.RequestValidator;
-import com.java_server.routing.methods.RouteMethod;
-import com.java_server.routing.methods.RouteMethodFactory;
+import com.java_server.request.methods.RequestMethod;
+import com.java_server.request.methods.RequestMethodFactory;
 import com.java_server.routing.RoutesDispatcher;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class ResponseGenerator {
     }
 
     private static Response validResponse(Request request, RequestValidator validator) throws IOException {
-        RouteMethod method = RouteMethodFactory.buildRouteMethod(request, validator);
+        RequestMethod method = RequestMethodFactory.buildRouteMethod(request, validator);
         Response response = method.getResponse();
         addOptionsToHeaders(response, request);
         return response;
