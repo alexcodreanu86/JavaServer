@@ -7,20 +7,17 @@ import com.java_server.response.ResponseGenerator;
 import com.java_server.response.ResponseSender;
 import com.java_server.utils.Logger;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+import java.io.*;
 
 /**
  * Created by Alex Codreanu on 11/19/14.
  */
 public class Router {
     private BufferedReader reader;
-    private DataOutputStream writer;
-    private Socket connection;
+    private OutputStream writer;
+    private Closeable connection;
 
-    public Router(BufferedReader inReader, DataOutputStream inWriter, Socket inConnection) {
+    public Router(BufferedReader inReader, OutputStream inWriter, Closeable inConnection) {
         this.reader = inReader;
         this.writer = inWriter;
         this.connection = inConnection;

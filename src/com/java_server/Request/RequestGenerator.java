@@ -15,9 +15,6 @@ public class RequestGenerator {
     public static Request generate(BufferedReader reader) throws IOException{
         String body = "";
         String requestLine = readLine(reader);
-
-        System.out.println(requestLine);
-
         String method = getMethod(requestLine);
         String url = getUrl(requestLine);
         String[] rest = getRestOfContent(reader);
@@ -32,10 +29,6 @@ public class RequestGenerator {
     private static String[] getRestOfContent(BufferedReader reader) throws IOException {
         StringBuilder content = new StringBuilder();
         while(reader.ready()) content.append((char) reader.read());
-
-        System.out.println(content.toString());
-        System.out.println("End Of request\n");
-
         return content.toString().split(headersDelimiter);
     }
 

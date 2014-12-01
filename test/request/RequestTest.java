@@ -20,6 +20,7 @@ public class RequestTest {
         assertSame(method, request.getMethod());
         assertSame(url, request.getUrl());
         assertSame(headers, request.getHeaders());
+        assertEquals("POST /some/url/here HTTP/1.1", request.getRequestLine());
     }
 
     @Test

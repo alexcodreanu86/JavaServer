@@ -15,7 +15,7 @@ public class Request {
     private Hashtable<String, String> params = new Hashtable<String, String>();
 
     public Request(String inMethod, String inUrl, String inBody, Hashtable<String, String> inHeaders) {
-        this(inMethod, inUrl, inBody, inHeaders, inMethod + inUrl + "HTTP/1.1");
+        this(inMethod, inUrl, inBody, inHeaders, inMethod + " " + inUrl + " HTTP/1.1");
     }
 
     public Request(String inMethod,

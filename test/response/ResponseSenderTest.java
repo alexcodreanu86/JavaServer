@@ -7,7 +7,6 @@ import com.java_server.response.Response;
 import com.java_server.response.ResponseSender;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -17,7 +16,6 @@ public class ResponseSenderTest {
     @Test
     public void testSendSendsTheDataRenderedByTheGivenResponse() {
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-         DataOutputStream outStream =  new DataOutputStream(outputStream);
          Response response = new Response("200", "OK");
          String testBody = "date=today";
          response.addHeader("Allow", "GET");
@@ -28,7 +26,7 @@ public class ResponseSenderTest {
                                   "Test: Testing" +
                                   "\r\n\r\n" +
                                   "date=today";
-        ResponseSender sender = new ResponseSender(response, outStream);
+        ResponseSender sender = new ResponseSender(response, outputStream);
         try {
             sender.send();
             assertEquals(expectedResponse, outputStream.toString());
