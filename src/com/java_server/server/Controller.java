@@ -18,7 +18,7 @@ public class Controller {
         System.out.println("Listening on port " + serverSocket.getLocalPort());
         RoutesGenerator.generate();
 
-        while(true) {
+        while(!serverSocket.isClosed()) {
             new ClientConnection(serverSocket.accept()).start();
         }
     }

@@ -22,18 +22,29 @@ public class MockClientSocket extends Socket {
         this.outputStream = new ByteArrayOutputStream();
     }
 
+    public MockClientSocket(String host, int port, byte[] inputStream) throws IOException {
+        super(host, port);
+        this.inStream = inputStream;
+        this.inputStream = new ByteArrayInputStream(inStream);
+        this.outputStream = new ByteArrayOutputStream();
+    }
+
+    @Override
     public void close() {
         this.closed = true;
     }
 
+    @Override
     public boolean isClosed() {
         return this.closed;
     }
 
+    @Override
     public InputStream getInputStream() {
         return inputStream;
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return outputStream;
     }
