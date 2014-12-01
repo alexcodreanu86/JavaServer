@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class ResponseSenderTest {
     @Test
-    public void testSendSendsTheDataRenderedByTheGivenResponse() {
+    public void testSendSendsTheDataRenderedByTheGivenResponse() throws IOException {
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
          Response response = new Response("200", "OK");
          String testBody = "date=today";
@@ -27,12 +27,8 @@ public class ResponseSenderTest {
                                   "\r\n\r\n" +
                                   "date=today";
         ResponseSender sender = new ResponseSender(response, outputStream);
-        try {
-            sender.send();
-            assertEquals(expectedResponse, outputStream.toString());
-        }
-        catch (IOException e) {
-            fail(e.toString());
-        }
+
+        sender.send();
+        assertEquals(expectedResponse, outputStream.toString());
     }
 }

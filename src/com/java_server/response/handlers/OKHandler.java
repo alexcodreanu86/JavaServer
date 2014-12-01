@@ -18,12 +18,27 @@ public class OKHandler {
     }
 
     public void populateResponse() {
-        response.addHeader("Content-Type", "text/html");
+        addContentTypeHeader();
         byte[] data = route.getData();
         if (data.length > 0) {
             response.addToBody(data);
         }
         addRequestParamsToResponse(response);
+    }
+
+    private void addContentTypeHeader() {
+        response.addHeader("Content-Type", getContentType());
+    }
+
+    private String getContentType() {
+        String contentType, dataType = route.getDataType();
+        if (dataType.equals("") || dataType.equals("txt")) {
+            contentType = "text";
+            dataType = "html";
+        } else {
+            contentType = "image";
+        }
+        return contentType + "/" + dataType;
     }
 
     private void addRequestParamsToResponse(Response response) {

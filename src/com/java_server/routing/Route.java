@@ -5,7 +5,7 @@ package com.java_server.routing;
  * Created by Alex Codreanu on 11/23/14.
  */
 public class Route {
-    String url, methods[];
+    String url, dataType, methods[];
     byte[] data;
     private boolean requiresAuth;
 
@@ -17,10 +17,25 @@ public class Route {
         this.methods = inMethods;
         this.data = inData;
         this.requiresAuth = inRequiresAuth;
+        this.dataType = processDataType(inUrl);
     }
 
     public boolean requiresAuthentication() {
         return this.requiresAuth;
+    }
+
+    public String getDataType() {
+        return this.dataType;
+    }
+
+    private String processDataType(String routeUrl) {
+        String[] urlParts = routeUrl.split("\\.");
+
+        if (urlParts.length > 1) {
+            return urlParts[1];
+        } else {
+            return "";
+        }
     }
 
     public byte[] getData() {

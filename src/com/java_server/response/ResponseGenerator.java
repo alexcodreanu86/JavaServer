@@ -15,7 +15,6 @@ import java.io.IOException;
  */
 public class ResponseGenerator {
     public static Response generate(Request request) {
-        //TODO check for authentication
         RequestValidator validator = new RequestValidator(request);
         if (validator.isValidUrl()) {
             return validatedRequest(request, validator);

@@ -46,12 +46,29 @@ public class RouteTest {
     }
 
     @Test
-    public void restRequiresAuthentication_returnsTrueWhenRequiresAuthentication() {
+    public void testRequiresAuthentication_returnsTrueWhenRequiresAuthentication() {
         String[] methods = new String[] {"GET", "POST"};
         Route route = newRouteWithAuth("/home", methods, new byte[0], true);
 
         assert(route.requiresAuthentication());
     }
+
+    @Test
+    public void testDataType_returnsTheDataTypeTheRouteContains() {
+        String[] methods = new String[] {"GET", "POST"};
+        Route route = newRouteWithAuth("/home.jpeg", methods, new byte[0], true);
+
+        assertEquals("jpeg", route.getDataType());
+    }
+
+    @Test
+    public void testDataType_returnsEmptyStringWhenThereIsNoDataType() {
+        String[] methods = new String[] {"GET", "POST"};
+        Route route = newRouteWithAuth("/home", methods, new byte[0], true);
+
+        assertEquals("", route.getDataType());
+    }
+
     @Test
     public void testSetMethods_setsMethodsToTheNewValue() {
         String[] oldMethods = new String[] {"DELETE", "PUT"};

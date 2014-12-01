@@ -30,7 +30,7 @@ public class PartialResponseHandlerTest {
     }
 
     @Test
-    public void testGetResponse_returnsPartialContentRangeHeaderContainsOnlyEndOfRange() throws IOException {
+    public void testGetResponse_returnsPartialContentWhenRangeHeaderHasOnlyEndOfRange() throws IOException {
         String routePath = "/route";
         Route route = new Route(routePath, new String[] {"GET"}, "some data in here".getBytes());
 
