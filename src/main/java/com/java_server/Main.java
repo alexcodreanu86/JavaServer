@@ -12,10 +12,10 @@ import java.net.ServerSocket;
  */
 public class Main {
     public static void main(String[] args) {
-        GlobalArguments.setArgs(args);
         ConfigParserFactory parserFactory = new ConfigParserFactory();
         try {
             ConfigParser parser = parserFactory.generate();
+            GlobalArguments.setArgs(args, parser);
             new Controller(new ServerSocket(GlobalArguments.getPort())).listen();
         }
         catch (Exception e) {

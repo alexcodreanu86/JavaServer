@@ -8,6 +8,8 @@ import com.java_server.utils.ConfigXMLParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.MockConfigParser;
+
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -24,7 +26,7 @@ public class RoutesGeneratorTest {
     @Before
     public void setup() throws IOException{
         file = createFileWithText(directoryPath + filePath1, "");
-        GlobalArguments.setArgs(new String[] {"-d", directoryPath});
+        GlobalArguments.setArgs(new String[] {"-d", directoryPath}, new MockConfigParser("mockPath", "9090"));
     }
 
     @After

@@ -7,6 +7,7 @@ import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.request.methods.GET;
 import org.junit.Test;
+import utils.MockConfigParser;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class GETTest {
         String routePath = "/redirect";
         Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
         RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "5000"));
 
         Response response = new GET(newRequest(routePath)).getResponse();
         String expectedResponse = "HTTP/1.1 301 Moved Permanently\r\n" +

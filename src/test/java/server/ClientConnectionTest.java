@@ -6,6 +6,7 @@ import com.java_server.server.ClientConnection;
 import mocks.MockClientSocket;
 import org.junit.Before;
 import org.junit.Test;
+import utils.MockConfigParser;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class ClientConnectionTest {
     @Before
     public void setupApp(){
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
         RoutesGenerator.generate();
     }
 

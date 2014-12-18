@@ -7,6 +7,7 @@ import com.java_server.response.handlers.MovedPermanentlyHandler;
 import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
 import org.junit.Test;
+import utils.MockConfigParser;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class MovedPermanentlyHandlerTest {
         String routePath = "/redirect";
         Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
         RoutesDispatcher.addRoute(route);
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "5000"));
 
         Response response = ResponseFactory.MovedPermanently();
         new MovedPermanentlyHandler(response).populateResponse();

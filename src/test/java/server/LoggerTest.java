@@ -6,6 +6,8 @@ import com.java_server.routing.RoutesDispatcher;
 import com.java_server.routing.RoutesGenerator;
 import com.java_server.server.Logger;
 import org.junit.Test;
+import utils.MockConfigParser;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,7 +16,7 @@ import static org.junit.Assert.*;
 public class LoggerTest {
     @Test
     public void testLog_addsTheGivenTextToTheLog() {
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("somePath", "5000"));
         RoutesGenerator.generate();
         Logger.log("text here");
         Logger.log("other text here");

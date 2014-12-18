@@ -5,6 +5,8 @@ import com.java_server.server.Controller;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.MockConfigParser;
+
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
@@ -26,7 +28,7 @@ public class ControllerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
         int port = 6000;
         serverSocket = new ServerSocket(port);
     }

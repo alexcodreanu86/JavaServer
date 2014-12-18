@@ -9,6 +9,8 @@ import mocks.MockClientSocket;
 import mocks.MockReader;
 import org.junit.Before;
 import org.junit.Test;
+import utils.MockConfigParser;
+
 import static org.junit.Assert.*;
 
 import java.io.*;
@@ -20,7 +22,7 @@ import java.io.*;
 public class RouterTest {
     @Before
     public void setupApp() {
-        GlobalArguments.setArgs(new String[0]);
+        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
         RoutesGenerator.generate();
     }
 
