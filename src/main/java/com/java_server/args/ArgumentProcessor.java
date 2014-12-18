@@ -1,6 +1,5 @@
 package com.java_server.args;
 
-import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -28,17 +27,12 @@ public class ArgumentProcessor {
     public String getDirectoryPath() { return getElementWithFallback(this.directoryPathTag, this.defaultPath); }
 
     private String getElementWithFallback(String elementTag, String fallback){
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream file = classLoader.getResourceAsStream("config/defaults.xml");
-
-
         int tagIndex = indexOfArgument(elementTag);
         if (isValidIndex(tagIndex)) {
             return  this.args[tagIndex + 1];
         } else {
             return fallback;
         }
-
     }
 
     private int indexOfArgument(String identifier) {

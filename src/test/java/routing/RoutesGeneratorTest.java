@@ -43,13 +43,13 @@ public class RoutesGeneratorTest {
 
     @Test
     public void testAddsRoutesGivenByTheXMLParser() throws Exception {
-        String configContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<config>\n" +
+        String defaultsContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "    <defaults>\n" +
                 "        <dirPath>cob_spec/public/</dirPath>\n" +
                 "        <port>6000</port>\n" +
-                "    </defaults>\n" +
-                "\n" +
+                "    </defaults>\n";
+
+        String routesContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "    <routes>\n" +
                 "        <route>\n" +
                 "            <path>/testRoute1</path>\n" +
@@ -61,11 +61,11 @@ public class RoutesGeneratorTest {
                 "            <path>/testRoute2</path>\n" +
                 "            <method>GET</method>\n" +
                 "        </route>\n" +
-                "    </routes>\n" +
-                "</config>";
+                "    </routes>\n";
 
-        File configFile = createFileWithText(directoryPath + "/test.xml", configContents);
-        ConfigXMLParser parser = new ConfigXMLParser(configFile);
+        File defaultsFile = createFileWithText(directoryPath + "/defaults.xml", defaultsContents);
+        File routesFile = createFileWithText(directoryPath + "/routes.xml", routesContents);
+        ConfigXMLParser parser = new ConfigXMLParser(defaultsFile, routesFile);
         RoutesGenerator.generate(parser);
 
         Route route1 = RoutesDispatcher.getRoute("/testRoute1");

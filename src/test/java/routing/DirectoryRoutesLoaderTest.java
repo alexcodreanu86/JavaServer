@@ -77,7 +77,7 @@ public class DirectoryRoutesLoaderTest {
         File file = new File(filePath);
         File parent = file.getParentFile();
         if (!parent.exists()) {
-            file.getParentFile().mkdir();
+            parent.mkdir();
         }
         file.createNewFile();
         return file;

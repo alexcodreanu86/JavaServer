@@ -1,10 +1,8 @@
 package utils;
 
-import com.java_server.utils.ConfigXMLParser;
-import com.java_server.utils.XMLRouteWrapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.java_server.utils.ConfigParser;
+import com.java_server.utils.ConfigParserFactory;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 
@@ -13,11 +11,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by Alex Codreanu on 12/16/14.
+ * Created by Alex Codreanu on 12/18/14.
  */
-public class ConfigXMLParserTest {
-    File defaultsFile;
-    File routesFile;
+public class ConfigParserFactoryTest {
+    File defaultsFile, routesFile, resourcesDirectory;
     PrintWriter defaultsWriter;
     PrintWriter routesWriter;
     String path = "/cob_spec/public/";
@@ -25,8 +22,9 @@ public class ConfigXMLParserTest {
 
     @Before
     public void setupXMLFile() throws Exception {
-        defaultsFile = createFile("defaults.xml");
-        routesFile = createFile("routes.xml");
+        resourcesDirectory = createDirectory("testResources");
+        defaultsFile = createFile(resourcesDirectory, "defaults.xml");
+        routesFile = createFile(resourcesDirectory, "routes.xml");
         defaultsWriter = new PrintWriter(defaultsFile, "UTF-8");
         routesWriter = new PrintWriter(routesFile, "UTF-8");
         writeFiles();
@@ -36,28 +34,17 @@ public class ConfigXMLParserTest {
     public void deleteXMLFiles() {
         defaultsFile.delete();
         routesFile.delete();
+        resourcesDirectory.delete();
     }
 
     @Test
-    public void getDirPath_testItReturnsTheDirPathInTheXMLFile() throws Exception {
-        ConfigXMLParser parser = new ConfigXMLParser(defaultsFile, routesFile);
-        assertEquals(path, parser.getDefaultDirPath());
-    }
+    public void testCreatesNewConfigParser() throws Exception {
+        TestFactory factory = new TestFactory(resourcesDirectory);
 
-    @Test
-    public void getPort_testItReturnsThePortInTheXMLFile() throws Exception {
-        ConfigXMLParser parser = new ConfigXMLParser(defaultsFile, routesFile);
-        assertEquals(port, parser.getDefaultPort());
-    }
+        ConfigParser parser = factory.generate();
 
-    @Test
-    public void getRoutes_returnsAnArrayOfRouteWrappers() throws Exception {
-
-        ConfigXMLParser parser = new ConfigXMLParser(defaultsFile, routesFile);
-        XMLRouteWrapper[] routes = parser.getRoutes();
-
-        assertEquals("/logs", routes[0].getPath());
-        assertEquals("/test", routes[1].getPath());
+        assertEquals(parser.getDefaultDirPath(), path);
+        assertEquals(parser.getDefaultPort(), port);
     }
 
     private void writeFiles() {
@@ -83,9 +70,27 @@ public class ConfigXMLParserTest {
         writer.close();
     }
 
-    private File createFile(String filePath) throws IOException {
-        File file = new File(filePath);
+    private File createDirectory(String dirPath) throws IOException {
+        File dir = new File(dirPath);
+        dir.mkdir();
+        return dir;
+    }
+    private File createFile(File dir, String filePath) throws IOException {
+        File file = new File(dir ,filePath);
         file.createNewFile();
         return file;
     }
+
+    class TestFactory extends ConfigParserFactory {
+        File resourcesDirectory;
+        public TestFactory(File inResourcesDirectory) {
+            resourcesDirectory = inResourcesDirectory;
+        }
+
+        @Override
+        protected File getResourcesDirectory() {
+            return resourcesDirectory;
+        }
+    }
 }
+

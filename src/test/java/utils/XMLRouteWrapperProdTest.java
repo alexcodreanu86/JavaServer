@@ -17,25 +17,29 @@ import java.util.Arrays;
  * Created by Alex Codreanu on 12/16/14.
  */
 public class XMLRouteWrapperProdTest {
-    File file;
-    PrintWriter writer;
-    String path = "/cob_spec/public/";
-    String port = "6000";
+    File defaultsFile, routesFile;
+    PrintWriter routesWriter, defaultsWriter;
     XMLRouteWrapper[] wrappers;
 
     @Before
     public void setupXMLFile() throws Exception {
-        file = createFile("test.xml");
-        writer = new PrintWriter(file, "UTF-8");
-        writeFile(writer);
+        defaultsFile = createFile("test.xml");
+        routesFile = createFile("routes.xml");
 
-        ConfigXMLParser parser = new ConfigXMLParser(file);
+        routesWriter = new PrintWriter(routesFile, "UTF-8");
+        defaultsWriter = new PrintWriter(defaultsFile, "UTF-8");
+        writeFile(routesWriter);
+        writeFile(defaultsWriter);
+
+
+        ConfigXMLParser parser = new ConfigXMLParser(defaultsFile, routesFile);
         wrappers = parser.getRoutes();
     }
 
     @After
     public void deleteXMLFile() {
-        file.delete();
+        defaultsFile.delete();
+        routesFile.delete();
     }
 
     @Test
@@ -45,14 +49,12 @@ public class XMLRouteWrapperProdTest {
         assertEquals("/logs", wrapper.getPath());
     }
 
-
     @Test
     public void requiresAuth_returnsTrueWhenRouteHasAuthTagTrue() throws Exception {
         XMLRouteWrapper logsWrapper = wrappers[0];
 
         assert(logsWrapper.requiresAuth());
     }
-
 
     @Test
     public void requiresAuth_returnsFalseWhenRouteHasNoAuthTag() throws Exception {
@@ -78,16 +80,11 @@ public class XMLRouteWrapperProdTest {
 
     private void writeFile(PrintWriter writer) {
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        writer.write("<config>\n<defaults>\n");
-        writer.write("<dirPath>" + path + "</dirPath>\n");
-        writer.write("<port>" + port + "</port>\n");
-        writer.write("</defaults>\n");
         writer.write("<routes>\n");
         writer.write("<route><path>/logs</path><method>GET</method><auth>true</auth></route>\n");
         writer.write("<route><path>/test</path><method>GET</method><method>POST</method></route>\n");
         writer.write("<route><path>/invalid</path><method>GET</method><method>POST</method><auth>false</auth></route>\n");
-        writer.write("</routes>");
-        writer.write("</config>");
+        writer.write("</routes>\n");
         writer.close();
     }
 

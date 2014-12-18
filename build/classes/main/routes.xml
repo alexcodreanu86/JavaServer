@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <route>
+        <path>/logs</path>
+        <method>GET</method>
+        <auth>true</auth>
+    </route>
+    <route>
+        <path>/method_options</path>
+        <method>GET</method>
+        <method>HEAD</method>
+        <method>POST</method>
+        <method>OPTIONS</method>
+        <method>PUT</method>
+    </route>
+    <route>
+        <path>/form</path>
+        <method>GET</method>
+        <method>POST</method>
+        <method>PUT</method>
+        <method>DELETE</method>
+    </route>
+    <route>
+        <path>/parameters</path>
+        <method>GET</method>
+    </route>
+    <route>
+        <path>/redirect</path>
+        <method>GET</method>
+    </route>
+</routes>
