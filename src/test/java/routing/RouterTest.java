@@ -5,11 +5,14 @@ import com.java_server.routing.Route;
 import com.java_server.routing.Router;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.routing.RoutesGenerator;
+import com.java_server.parser.ConfigParser;
+import com.java_server.parser.XMLRouteWrapper;
 import mocks.MockClientSocket;
 import mocks.MockReader;
+import mocks.MockXMLRouteWrapper;
 import org.junit.Before;
 import org.junit.Test;
-import utils.MockConfigParser;
+import mocks.MockConfigParser;
 
 import static org.junit.Assert.*;
 
@@ -22,8 +25,13 @@ import java.io.*;
 public class RouterTest {
     @Before
     public void setupApp() {
-        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
-        RoutesGenerator.generate();
+        XMLRouteWrapper wrapper1 = new MockXMLRouteWrapper("/logs", true, new String[] {"GET"});
+        XMLRouteWrapper wrapper2 = new MockXMLRouteWrapper("/", false, new String[] {"GET"});
+        XMLRouteWrapper[] routes = new XMLRouteWrapper[] { wrapper1, wrapper2 };
+        ConfigParser parser = new MockConfigParser("somePath", "5000", routes);
+
+        GlobalArguments.setArgs(new String[0], parser);
+        RoutesGenerator.generate(parser);
     }
 
     @Test

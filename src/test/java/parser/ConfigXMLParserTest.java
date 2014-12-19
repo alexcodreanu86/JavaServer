@@ -1,7 +1,7 @@
-package utils;
+package parser;
 
-import com.java_server.utils.ConfigXMLParser;
-import com.java_server.utils.XMLRouteWrapper;
+import com.java_server.parser.ConfigXMLParser;
+import com.java_server.parser.XMLRouteWrapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

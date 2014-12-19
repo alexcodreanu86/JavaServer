@@ -3,10 +3,11 @@ package server;
 import com.java_server.args.GlobalArguments;
 import com.java_server.routing.RoutesGenerator;
 import com.java_server.server.ClientConnection;
+import com.java_server.parser.ConfigParser;
 import mocks.MockClientSocket;
 import org.junit.Before;
 import org.junit.Test;
-import utils.MockConfigParser;
+import mocks.MockConfigParser;
 
 import java.io.IOException;
 
@@ -17,8 +18,9 @@ import java.io.IOException;
 public class ClientConnectionTest {
     @Before
     public void setupApp(){
-        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
-        RoutesGenerator.generate();
+        ConfigParser parser =  new MockConfigParser("mockPath", "9090");
+        GlobalArguments.setArgs(new String[0], parser);
+        RoutesGenerator.generate(parser);
     }
 
     @Test
@@ -28,14 +30,5 @@ public class ClientConnectionTest {
 
         clientConnection.run();
         assert(socket.getOutputStream().toString().contains("HTTP/1.1 200 OK"));
-    }
-
-    //TODO test Threads
-    public void testExtendsThread() throws IOException {
-        MockClientSocket socket = new MockClientSocket("GET / HTTP/1.1\r\n\r\n".getBytes());
-        ClientConnection clientConnection = new ClientConnection(socket);
-
-        clientConnection.start();
-        assert(socket.getOutputStream().toString().contains("200"));
     }
 }

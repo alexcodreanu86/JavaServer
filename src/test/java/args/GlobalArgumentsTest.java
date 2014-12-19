@@ -1,10 +1,10 @@
 package args;
 
 import com.java_server.args.GlobalArguments;
-import com.java_server.utils.ConfigParser;
+import com.java_server.parser.ConfigParser;
 import org.junit.Before;
 import org.junit.Test;
-import utils.MockConfigParser;
+import mocks.MockConfigParser;
 
 import static org.junit.Assert.*;
 

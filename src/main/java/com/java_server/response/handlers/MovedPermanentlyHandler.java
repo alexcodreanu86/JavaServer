@@ -8,11 +8,13 @@ import com.java_server.response.Response;
  */
 public class MovedPermanentlyHandler {
     Response response;
-    public MovedPermanentlyHandler(Response inResponse) {
+    String redirectPath;
+    public MovedPermanentlyHandler(Response inResponse, String inRedirectPath) {
         this.response = inResponse;
+        this.redirectPath = inRedirectPath;
     }
 
     public void populateResponse() {
-        response.addHeader("Location", "http://localhost:" + GlobalArguments.getPort() + "/");
+        response.addHeader("Location", "http://localhost:" + GlobalArguments.getPort() + redirectPath);
     }
 }

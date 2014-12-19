@@ -1,4 +1,4 @@
-package com.java_server.utils;
+package com.java_server.parser;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,15 +18,6 @@ public class XMLRouteWrapperProd implements XMLRouteWrapper {
         return paths.item(0).getTextContent();
     }
 
-    public Boolean requiresAuth() {
-        NodeList auth = getElements("auth");
-        String authValue = "";
-        if (auth.getLength() > 0) {
-            authValue  = auth.item(0).getTextContent();
-        }
-        return authValue.equals("true");
-    }
-
     public String[] getMethods() {
         NodeList methodsNodes = getElements("method");
         String[] methods =  new String[methodsNodes.getLength()];
@@ -37,6 +28,23 @@ public class XMLRouteWrapperProd implements XMLRouteWrapper {
         }
 
         return methods;
+    }
+
+    public Boolean requiresAuth() {
+        return "true".equals(getElementValue("auth"));
+    }
+
+    public String getRedirectPath() {
+        return getElementValue("redirectPath");
+    }
+
+    private String getElementValue(String elementName) {
+        NodeList elements = getElements(elementName);
+        String elementValue = null;
+        if (elements.getLength() > 0) {
+            elementValue  = elements.item(0).getTextContent();
+        }
+        return elementValue;
     }
 
     private NodeList getElements (String tagName) {

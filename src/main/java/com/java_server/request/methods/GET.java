@@ -17,14 +17,12 @@ import java.io.IOException;
 public class GET extends RequestMethod {
     private Request request;
 
-    public GET(Request inRequest) {
-        this.request = inRequest;
-    }
+    public GET(Request inRequest) { this.request = inRequest; }
 
     public Response getResponse() throws IOException {
         Route route = RoutesDispatcher.getRoute(request.getUrl());
-        if (route.getUrl().equals("/redirect")) {
-            return createRedirectResponse();
+        if (route.shouldRedirect()) {
+            return createRedirectResponse(route.getRedirectPath());
         } else if (request.getHeaders().get("Range") != null){
             return createPartialResponse(request.getHeaders().get("Range"), route);
         } else {
@@ -39,9 +37,9 @@ public class GET extends RequestMethod {
         return response;
     }
 
-    private Response createRedirectResponse() {
+    private Response createRedirectResponse(String redirectPath) {
         Response response = ResponseFactory.MovedPermanently();
-        new MovedPermanentlyHandler(response).populateResponse();
+        new MovedPermanentlyHandler(response, redirectPath).populateResponse();
 
         return response;
     }

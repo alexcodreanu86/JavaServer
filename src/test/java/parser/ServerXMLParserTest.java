@@ -1,6 +1,6 @@
-package utils;
+package parser;
 
-import com.java_server.utils.ServerXMLParser;
+import com.java_server.parser.ServerXMLParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

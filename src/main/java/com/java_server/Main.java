@@ -2,8 +2,8 @@ package com.java_server;
 
 import com.java_server.args.GlobalArguments;
 import com.java_server.server.Controller;
-import com.java_server.utils.ConfigParser;
-import com.java_server.utils.ConfigParserFactory;
+import com.java_server.parser.ConfigParser;
+import com.java_server.parser.ConfigParserFactory;
 
 import java.net.ServerSocket;
 
@@ -16,7 +16,8 @@ public class Main {
         try {
             ConfigParser parser = parserFactory.generate();
             GlobalArguments.setArgs(args, parser);
-            new Controller(new ServerSocket(GlobalArguments.getPort())).listen();
+
+            new Controller(new ServerSocket(GlobalArguments.getPort()), parser).listen();
         }
         catch (Exception e) {
             System.out.println("Server.com.java_server.server.Controller: " + e);

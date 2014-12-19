@@ -7,7 +7,7 @@ import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
 import com.java_server.request.methods.GET;
 import org.junit.Test;
-import utils.MockConfigParser;
+import mocks.MockConfigParser;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class GETTest {
     @Test
     public void testGetResponse_returnsRedirectResponseWhenRequestRouteIsredirect() throws IOException {
         String routePath = "/redirect";
-        Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
+        Route route = new Route(routePath, new String[] {"GET"}, new byte[0], false, "/");
         RoutesDispatcher.addRoute(route);
         GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "5000"));
 

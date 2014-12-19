@@ -27,5 +27,6 @@
     <route>
         <path>/redirect</path>
         <method>GET</method>
+        <redirectTo>/</redirectTo>
     </route>
 </routes>

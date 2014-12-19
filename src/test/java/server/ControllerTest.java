@@ -2,10 +2,11 @@ package server;
 
 import com.java_server.args.GlobalArguments;
 import com.java_server.server.Controller;
+import com.java_server.parser.ConfigParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import utils.MockConfigParser;
+import mocks.MockConfigParser;
 
 import static org.junit.Assert.*;
 
@@ -23,12 +24,16 @@ import java.net.URLConnection;
 
 public class ControllerTest {
     ServerSocket serverSocket;
+    ConfigParser parser;
+
     @Before
     public void setupApp() throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "9090"));
+        parser = new MockConfigParser("mockPath", "9090");
+
+        GlobalArguments.setArgs(new String[0], parser);
         int port = 6000;
         serverSocket = new ServerSocket(port);
     }
@@ -40,7 +45,7 @@ public class ControllerTest {
 
     @Test
     public void testListen_startsListeningToServerConnections() throws IOException {
-        Controller controller = new Controller(serverSocket);
+        Controller controller = new Controller(serverSocket, parser);
         ControllerStarter starter = new ControllerStarter(controller);
         starter.start();
         URL url = new URL("http://localhost:6000");
@@ -52,7 +57,7 @@ public class ControllerTest {
 
     @Test
     public void testListen_stopsListeningWhenTheServerSocketIsClosed() throws IOException {
-        Controller controller = new Controller(serverSocket);
+        Controller controller = new Controller(serverSocket, parser);
         ControllerStarter starter = new ControllerStarter(controller);
         starter.start();
         serverSocket.close();
@@ -67,18 +72,19 @@ public class ControllerTest {
 
         assertNull(contentType);
     }
-}
 
-class ControllerStarter extends Thread {
-    public Controller controller;
-    public ControllerStarter(Controller inController) {
-        this.controller = inController;
-    }
-
-    public void run() {
-        try {
-            controller.listen();
+    class ControllerStarter extends Thread {
+        public Controller controller;
+        public ControllerStarter(Controller inController) {
+            this.controller = inController;
         }
-        catch (IOException e) {}
+
+        public void run() {
+            try {
+                controller.listen();
+            }
+            catch (IOException e) {}
+        }
     }
 }
+

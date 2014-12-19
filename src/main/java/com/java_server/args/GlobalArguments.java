@@ -1,6 +1,6 @@
 package com.java_server.args;
 
-import com.java_server.utils.ConfigParser;
+import com.java_server.parser.ConfigParser;
 
 /**
  * Created by Alex Codreanu on 11/22/14.

@@ -1,4 +1,4 @@
-package com.java_server.utils;
+package com.java_server.parser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

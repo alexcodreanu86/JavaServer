@@ -1,7 +1,8 @@
 package routing;
 
 import com.java_server.routing.Route;
-import com.java_server.utils.XMLRouteWrapper;
+import com.java_server.parser.XMLRouteWrapper;
+import mocks.MockXMLRouteWrapper;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,7 +25,7 @@ public class RouteTest {
     public void testCanBeCreatedWithXMLWrapper() throws IOException {
         String[] methods = new String[] {"GET", "POST"};
         String url = "/test";
-        XMLRouteWrapper wrapper = new MockXMLWrapper(url, true, methods);
+        XMLRouteWrapper wrapper = new MockXMLRouteWrapper(url, true, methods);
         Route route = new Route(wrapper);
 
         assert(Arrays.equals(new byte[0], route.getData()));
@@ -68,6 +69,20 @@ public class RouteTest {
     }
 
     @Test
+    public void testShouldRedirect_returnsTrueWhenARedirectPathIsGiven() {
+        String[] methods = new String[] {"GET", "POST"};
+        Route route = new Route("/testRedirect", methods, new byte[0], true, "/home");
+        assert(route.shouldRedirect());
+    }
+
+    @Test
+    public void testGetRedirectPath_returnsTheRedirectPath() {
+        String[] methods = new String[] {"GET", "POST"};
+        Route route = new Route("/testRedirect", methods, new byte[0], true, "/home");
+        assertEquals("/home", route.getRedirectPath());
+    }
+
+    @Test
     public void testDataType_returnsTheDataTypeTheRouteContains() {
         String[] methods = new String[] {"GET", "POST"};
         Route route = newRouteWithAuth("/home.jpeg", methods, new byte[0], true);
@@ -101,26 +116,5 @@ public class RouteTest {
 
     private Route newRouteWithAuth(String url, String[] methods, byte[] data, boolean requiresAuth) {
         return new Route(url, methods, data, requiresAuth);
-    }
-
-    class MockXMLWrapper implements XMLRouteWrapper {
-        String path, methods[];
-        Boolean auth;
-
-        public MockXMLWrapper(String inPath, Boolean inRequiresAuth, String[] inMethods) {
-            path = inPath;
-            auth = inRequiresAuth;
-            methods = inMethods;
-        }
-
-        public String getPath() {
-            return path;
-        }
-        public Boolean requiresAuth() {
-            return auth;
-        }
-        public String[] getMethods() {
-            return methods;
-        }
     }
 }

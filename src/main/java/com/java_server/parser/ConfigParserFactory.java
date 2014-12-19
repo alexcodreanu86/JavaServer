@@ -1,4 +1,4 @@
-package com.java_server.utils;
+package com.java_server.parser;
 
 import org.xml.sax.SAXException;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
  * Created by Alex Codreanu on 12/18/14.
  */
 public class ConfigParserFactory {
-    private final String relativeResourcesPath = "/../java_server/resources/";
+    private final String relativeResourcesPath = "/../java_server/config/";
 
     public ConfigParser generate() throws ParserConfigurationException, IOException, SAXException {
         return new ConfigXMLParser(getDefaultsFile(), getRoutesFile());

@@ -1,7 +1,7 @@
-package utils;
+package parser;
 
-import com.java_server.utils.ConfigParser;
-import com.java_server.utils.ConfigParserFactory;
+import com.java_server.parser.ConfigParser;
+import com.java_server.parser.ConfigParserFactory;
 import org.junit.*;
 
 import static org.junit.Assert.*;

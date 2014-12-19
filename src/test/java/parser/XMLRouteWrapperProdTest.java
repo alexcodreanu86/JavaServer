@@ -1,7 +1,7 @@
-package utils;
+package parser;
 
-import com.java_server.utils.ConfigXMLParser;
-import com.java_server.utils.XMLRouteWrapper;
+import com.java_server.parser.ConfigXMLParser;
+import com.java_server.parser.XMLRouteWrapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,12 +78,25 @@ public class XMLRouteWrapperProdTest {
         assert(Arrays.equals(expectedMethods, wrapper.getMethods()));
     }
 
+    @Test
+    public void getRedirectPath_returnsNullWhenThePathHasNoRedirectPath() {
+        XMLRouteWrapper wrapper = wrappers[1];
+        assertNull(wrapper.getRedirectPath());
+    }
+
+    @Test
+    public void getRedirectPath_returnsTheRedirectPathWhenXMLElHasOne() {
+        XMLRouteWrapper wrapper = wrappers[3];
+        assertEquals("/home", wrapper.getRedirectPath());
+    }
+
     private void writeFile(PrintWriter writer) {
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         writer.write("<routes>\n");
         writer.write("<route><path>/logs</path><method>GET</method><auth>true</auth></route>\n");
         writer.write("<route><path>/test</path><method>GET</method><method>POST</method></route>\n");
         writer.write("<route><path>/invalid</path><method>GET</method><method>POST</method><auth>false</auth></route>\n");
+        writer.write("<route><path>/redirectTest</path><method>GET</method><redirectPath>/home</redirectPath></route>\n");
         writer.write("</routes>\n");
         writer.close();
     }
