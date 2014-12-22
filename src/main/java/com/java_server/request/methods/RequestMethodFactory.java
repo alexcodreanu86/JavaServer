@@ -13,7 +13,6 @@ public class RequestMethodFactory {
         } else {
             return generateInvalidMethod();
         }
-
     }
 
     private static RequestMethod generateValidMethod(Request request) {
@@ -29,7 +28,5 @@ public class RequestMethodFactory {
         }
     }
 
-    public static RequestMethod generateInvalidMethod() {
-        return new NotAllowed();
-    }
+    public static RequestMethod generateInvalidMethod() { return new NotAllowed(); }
 }

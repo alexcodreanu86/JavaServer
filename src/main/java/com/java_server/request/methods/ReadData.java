@@ -23,8 +23,8 @@ public class ReadData extends RequestMethod {
         Route route = RoutesDispatcher.getRoute(request.getUrl());
         if (route.shouldRedirect()) {
             return createRedirectResponse(route.getRedirectPath());
-        } else if (request.getHeaders().get("Range") != null){
-            return createPartialResponse(request.getHeaders().get("Range"), route);
+        } else if (request.isPartial()){
+            return createPartialResponse(request.getHeader("Range"), route);
         } else {
             return createSuccessResponse(route);
         }

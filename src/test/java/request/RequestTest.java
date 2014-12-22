@@ -46,4 +46,37 @@ public class RequestTest {
         assertEquals(request.getParam("variable_1"), "Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?");
         assertEquals(request.getParam("variable_2"), "stuff");
     }
+
+    @Test
+    public void isPartial_returnsFalseWhenRequestIsPartial() {
+        String method = "GET";
+        String url = "/some/url/here";
+        String params = "?param1=test1&param2=test2";
+        Hashtable headers = new Hashtable();
+        Request request = new Request(method, url + params, "", headers);
+        assertFalse(request.isPartial());
+    }
+
+    @Test
+    public void isPartial_returnsTrueWhenContainsRangeHeader() {
+        String method = "GET";
+        String url = "/some/url/here";
+        String params = "?param1=test1&param2=test2";
+        Hashtable<String, String> headers = new Hashtable<String, String>();
+        headers.put("Range", "bytes=0-4");
+        Request request = new Request(method, url + params, "", headers);
+        assertTrue(request.isPartial());
+    }
+
+    @Test
+    public void getHeader_returnsTheHeaderThatIsRequested() {
+        String method = "GET";
+        String url = "/some/url/here";
+        String params = "?param1=test1&param2=test2";
+        Hashtable<String, String> headers = new Hashtable<String, String>();
+        headers.put("Range", "bytes=0-4");
+        Request request = new Request(method, url + params, "", headers);
+
+        assertEquals("bytes=0-4", request.getHeader("Range"));
+    }
 }

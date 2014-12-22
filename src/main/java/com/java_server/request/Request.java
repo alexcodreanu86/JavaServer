@@ -34,33 +34,23 @@ public class Request {
 
     }
 
-    public String getRequestLine() {
-        return requestLine;
-    }
+    public String getRequestLine() { return requestLine; }
 
-    public Hashtable<String, String> getParams() {
-        return this.params;
-    }
+    public Hashtable<String, String> getParams() { return this.params; }
 
-    public String getParam(String paramName) {
-        return this.params.get(paramName);
-    }
+    public String getParam(String paramName) { return this.params.get(paramName); }
 
-    public String getMethod() {
-        return this.method;
-    }
+    public String getMethod() { return this.method; }
 
-    public String getUrl() {
-        return this.url;
-    }
+    public String getUrl() { return this.url; }
 
-    public String getBody() {
-        return this.body;
-    }
+    public String getBody() { return this.body; }
 
-    public Hashtable<String, String> getHeaders() {
-        return this.headers;
-    }
+    public Hashtable<String, String> getHeaders() { return this.headers; }
+
+    public Boolean isPartial() { return getHeaders().get("Range") != null; }
+
+    public String getHeader(String headerName) { return getHeaders().get(headerName); }
 
     private void processParams(String inUrl) {
         String[] urlParams = inUrl.split(paramsDelimiter);
