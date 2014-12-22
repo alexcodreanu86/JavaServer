@@ -18,18 +18,16 @@ public class RequestMethodFactory {
 
     private static RequestMethod generateValidMethod(Request request) {
         String methodName = request.getMethod();
-        if (methodName.equals("POST")) {
-            return new POST(request);
+        if (methodName.equals("GET")) {
+            return new GET(request);
         }else if (methodName.equals("OPTIONS")) {
             return new OPTIONS(request);
-        } else if (methodName.equals("PUT")) {
-            return new PUT(request);
         } else if (methodName.equals("DELETE")) {
             return new DELETE(request);
         } else if (methodName.equals("PATCH")){
             return new PATCH(request);
         } else {
-            return new GET(request);
+            return new POST(request);
         }
     }
 

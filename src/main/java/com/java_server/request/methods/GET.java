@@ -32,7 +32,7 @@ public class GET extends RequestMethod {
 
     private Response createPartialResponse(String range, Route route) {
         Response response = ResponseFactory.PartialContent();
-        new PartialContentHandler(request, response, route).populateResponse();
+        new PartialContentHandler(range, response, route).populateResponse();
 
         return response;
     }

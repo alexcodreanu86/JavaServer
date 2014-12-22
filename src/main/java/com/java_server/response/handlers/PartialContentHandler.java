@@ -1,6 +1,5 @@
 package com.java_server.response.handlers;
 
-import com.java_server.request.Request;
 import com.java_server.response.Response;
 import com.java_server.routing.Route;
 
@@ -10,26 +9,21 @@ import java.util.Arrays;
  * Created by Alex Codreanu on 11/27/14.
  */
 public class PartialContentHandler {
-    private Request request;
+    private String range;
     private Response response;
     private Route route;
 
-    public PartialContentHandler(Request inRequest, Response inResponse, Route inRoute) {
-        this.request  = inRequest;
+    public PartialContentHandler(String inRange, Response inResponse, Route inRoute) {
+        this.range    = inRange;
         this.response = inResponse;
         this.route    = inRoute;
     }
 
     public void populateResponse() {
-        String range = getRange();
         String rangeStr = range.split("bytes=")[1];
         String[] rangeParts = rangeStr.split("-");
 
         response.addToBody(getPartialData(rangeParts, route.getData()));
-    }
-
-    private String getRange() {
-        return request.getHeaders().get("Range");
     }
 
     private byte[] getPartialData(String[] rangeParts, byte[] data) {
