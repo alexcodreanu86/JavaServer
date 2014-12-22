@@ -15,10 +15,10 @@ public class DirectoryRoutesLoader {
 
     private static void createRootPath(File directory) {
         String template =  new DirectoryContentTemplate(directory).render();
-        setupGetFileRoute("/", template.getBytes());
+        setupFileRoute("/", template.getBytes());
     }
 
-    private static void createDirectoryContentsPaths( File directory) {
+    private static void createDirectoryContentsPaths(File directory) {
         File[] directoryContents = directory.listFiles();
         if (directoryContents != null) {
             for (File file : directoryContents) {
@@ -27,19 +27,20 @@ public class DirectoryRoutesLoader {
                 String filePath = file.toString();
                 String fileName = filePath.substring(fileLength);
 
-                setupGetFileRoute(fileName, readFileContents(file));
+                setupFileRoute(fileName, readFileContents(file));
             }
         }
     }
 
-    private static void setupGetFileRoute(String fileName, byte[] fileData) {
-        setupRoute(fileName, new String[] {"GET", "PATCH"}, fileData);
-    }
+    private static void setupFileRoute(String fileName, byte[] fileData) { setupRoute(fileName, fileData); }
 
-    public static void setupRoute(String fileName, String[] methods, byte[] fileData) {
-        Route route = new Route(fileName, methods, fileData);
+
+    private static void setupRoute(String fileName, byte[] fileData) {
+        Route route = new Route(fileName, routeMethods(), fileData);
         RoutesDispatcher.addRoute(route);
     }
+
+    private static String[] routeMethods() { return new String[] {"GET", "PATCH"}; }
 
     private static byte[] readFileContents(File file) {
         ByteArrayOutputStream fileContents = new ByteArrayOutputStream();

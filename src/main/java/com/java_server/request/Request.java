@@ -71,8 +71,6 @@ public class Request {
         }
     }
 
-    private String processUrl(String inUrl) {
-        return inUrl.split(paramsDelimiter)[0];
-    }
+    private String processUrl(String inUrl) { return inUrl.split(paramsDelimiter)[0]; }
 
 }
