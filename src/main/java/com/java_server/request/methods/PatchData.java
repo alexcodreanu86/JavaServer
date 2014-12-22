@@ -9,22 +9,22 @@ import com.java_server.routing.RoutesDispatcher;
 import java.io.IOException;
 
 /**
- * Created by Alex Codreanu on 11/23/14.
+ * Created by Alex Codreanu on 11/26/14.
  */
-public class DELETE extends RequestMethod {
+public class PatchData extends RequestMethod {
     private Request request;
-    public DELETE(Request inRequest) {
+
+    public PatchData(Request inRequest) {
         this.request = inRequest;
     }
 
-    public Response getResponse() throws IOException {
-        return createSuccessResponse();
+    public Response getResponse() throws IOException{
+        return createSuccessResponseWithData(request.getBody());
     }
 
-    private Response createSuccessResponse() throws IOException {
-        Response response = ResponseFactory.OK();
+    private Response createSuccessResponseWithData(String data) throws IOException {
         Route route = RoutesDispatcher.getRoute(request.getUrl());
-        route.setData(new byte[0]);
-        return response;
+        route.setData(data.getBytes());
+        return ResponseFactory.NoContent();
     }
 }

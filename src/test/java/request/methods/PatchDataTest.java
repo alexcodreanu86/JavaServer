@@ -1,10 +1,10 @@
 package request.methods;
 
 import com.java_server.request.Request;
+import com.java_server.request.methods.PatchData;
 import com.java_server.response.Response;
 import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
-import com.java_server.request.methods.PATCH;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,7 +15,7 @@ import java.util.Hashtable;
 /**
  * Created by Alex Codreanu on 11/26/14.
  */
-public class PATCHTest {
+public class PatchDataTest {
 
     @Test
     public void processRequestSendsASucessfullResponseOnRouteForms() {
@@ -23,7 +23,7 @@ public class PATCHTest {
         RoutesDispatcher.addRoute(new Route(url, new String[] {"PATCH"}, new byte[0]));
         String body = "requestBody=body";
         Request request = newRequest(url, body);
-        PATCH postRouter = new PATCH(request);
+        PatchData postRouter = new PatchData(request);
 
         try {
             Response response = postRouter.getResponse();
@@ -40,7 +40,7 @@ public class PATCHTest {
         RoutesDispatcher.addRoute(new Route(url, new String[] {"PATCH"}, new byte[0]));
         String body = "requestBody=body";
         Request request = newRequest(url, body);
-        PATCH postRouter = new PATCH(request);
+        PatchData postRouter = new PatchData(request);
 
         try {
             postRouter.getResponse();

@@ -24,21 +24,13 @@ public class Response {
         this.headers = new Hashtable<String, String>();
     }
 
-    public Response() {
-        this("", "");
-    }
+    public Response() { this("", ""); }
 
-    public String getResponseLine() {
-        return this.HttpVersion + " " + getReplyCode();
-    }
+    public String getResponseLine() { return this.HttpVersion + " " + getReplyCode(); }
 
-    public void addHeader(String name, String value) {
-        this.headers.put(name, value);
-    }
+    public void addHeader(String name, String value) { this.headers.put(name, value); }
 
-    public void addToBody(String bodyLine) {
-        addToBody(bodyLine.getBytes());
-    }
+    public void addToBody(String bodyLine) { addToBody(bodyLine.getBytes()); }
 
     public void addToBody(byte[] bodyLine) {
         if (body.length > 0) {
@@ -47,13 +39,9 @@ public class Response {
         this.body = addByteArrays(this.body, bodyLine);
     }
 
-    private byte[] addByteArrays(byte[] original, byte[] toBeAdded) {
-        return ArrayJoiner.join(original, toBeAdded);
-    }
+    private byte[] addByteArrays(byte[] original, byte[] toBeAdded) { return ArrayJoiner.join(original, toBeAdded); }
 
-    public byte[] getBody() {
-        return this.body;
-    }
+    public byte[] getBody() { return this.body; }
 
     public byte[] render() {
         String headContent = this.getResponseLine() + lineDivider + renderHeaders() + lineDivider;
@@ -71,7 +59,5 @@ public class Response {
         return headersBody;
     }
 
-    private String getReplyCode() {
-        return code + " " + reasonPhrase;
-    }
+    private String getReplyCode() { return code + " " + reasonPhrase; }
 }

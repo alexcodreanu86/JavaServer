@@ -2,10 +2,10 @@ package request.methods;
 
 import com.java_server.args.GlobalArguments;
 import com.java_server.request.Request;
+import com.java_server.request.methods.ReadData;
 import com.java_server.response.Response;
 import com.java_server.routing.Route;
 import com.java_server.routing.RoutesDispatcher;
-import com.java_server.request.methods.GET;
 import org.junit.Test;
 import mocks.MockConfigParser;
 
@@ -16,7 +16,7 @@ import java.util.Hashtable;
 /**
  * Created by Alex Codreanu on 11/20/14.
  */
-public class GETTest {
+public class ReadDataTest {
     @Test
     public void testGetResponse_addsTheBodyForAValidRequestRoute() throws IOException {
         String routePath = "/hello";
@@ -24,7 +24,7 @@ public class GETTest {
         Route route = new Route(routePath, new String[] {"GET"}, routeData.getBytes());
         RoutesDispatcher.addRoute(route);
 
-        Response response = new GET(newRequest(routePath)).getResponse();
+        Response response = new ReadData(newRequest(routePath)).getResponse();
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
                                   "Content-Type: text/html" +
                                   "\r\n\r\n" +
@@ -40,7 +40,7 @@ public class GETTest {
         RoutesDispatcher.addRoute(route);
         GlobalArguments.setArgs(new String[0], new MockConfigParser("mockPath", "5000"));
 
-        Response response = new GET(newRequest(routePath)).getResponse();
+        Response response = new ReadData(newRequest(routePath)).getResponse();
         String expectedResponse = "HTTP/1.1 301 Moved Permanently\r\n" +
                 "Location: http://localhost:5000/" +
                 "\r\n\r\n";
@@ -55,7 +55,7 @@ public class GETTest {
         Route route = new Route(routePath, new String[] {"GET"}, new byte[0]);
         RoutesDispatcher.addRoute(route);
 
-        Response response = new GET(newRequest(routePath + params)).getResponse();
+        Response response = new ReadData(newRequest(routePath + params)).getResponse();
         String expectedResponse = "HTTP/1.1 200 OK\r\n" +
                                   "Content-Type: text/html" +
                                   "\r\n\r\n" +
@@ -74,7 +74,7 @@ public class GETTest {
         headers.put("Range", "bytes=0-4");
 
 
-        Response response = new GET(newRequest(routePath, headers)).getResponse();
+        Response response = new ReadData(newRequest(routePath, headers)).getResponse();
 
         assert(Arrays.equals("some ".getBytes(), response.getBody()));
         assert(response.getResponseLine().equals("HTTP/1.1 206 Partial Content"));

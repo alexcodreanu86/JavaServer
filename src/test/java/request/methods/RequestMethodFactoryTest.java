@@ -22,7 +22,7 @@ public class RequestMethodFactoryTest {
         Request request = newRequest(url, body, "POST");
         RequestValidator validator = new RequestValidator(request);
         RequestMethod method = RequestMethodFactory.buildRouteMethod(request, validator);
-        assert(method instanceof POST);
+        assert(method instanceof ChangeData);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class RequestMethodFactoryTest {
         Request request = newRequest(url, body, "OPTIONS");
         RequestValidator validator = new RequestValidator(request);
         RequestMethod method = RequestMethodFactory.buildRouteMethod(request, validator);
-        assert(method instanceof OPTIONS);
+        assert(method instanceof RouteOptions);
 
     }
 
@@ -45,7 +45,7 @@ public class RequestMethodFactoryTest {
         Request request = newRequest(url, body, "GET");
         RequestValidator validator = new RequestValidator(request);
         RequestMethod method = RequestMethodFactory.buildRouteMethod(request, validator);
-        assert(method instanceof GET);
+        assert(method instanceof ReadData);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RequestMethodFactoryTest {
         Request request = newRequest(url, body, "PATCH");
         RequestValidator validator = new RequestValidator(request);
         RequestMethod method = RequestMethodFactory.buildRouteMethod(request, validator);
-        assert(method instanceof PATCH);
+        assert(method instanceof PatchData);
     }
 
     @Test

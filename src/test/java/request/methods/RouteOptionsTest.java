@@ -1,8 +1,8 @@
 package request.methods;
 
 import com.java_server.request.Request;
+import com.java_server.request.methods.RouteOptions;
 import com.java_server.response.Response;
-import com.java_server.request.methods.OPTIONS;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Alex Codreanu on 11/21/14.
  */
-public class OPTIONSTest {
+public class RouteOptionsTest {
 
     @Test
     public void testProcessRequestRespondsWithOptionsForTheRequestedRoute() {
@@ -24,7 +24,7 @@ public class OPTIONSTest {
         String body = "requestBody=body";
         Request request = newRequest(url, body);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        OPTIONS optionsRouter = new OPTIONS(request);
+        RouteOptions optionsRouter = new RouteOptions();
         String expectedResponse = "HTTP/1.1 200 OK\r\n\r\n";
         try {
             Response response = optionsRouter.getResponse();
